@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/ui/views/profiles/profile_menu_view.h b/chrome/browser/ui/views/profiles/profile_menu_view.h
+index 2d2924ed918504a6c5038fe71dac658bedeaa4e2..a5df3ebd1e2f9037ce5e06a9e801d15c05b87bfa 100644
+--- a/chrome/browser/ui/views/profiles/profile_menu_view.h
++++ b/chrome/browser/ui/views/profiles/profile_menu_view.h
+@@ -46,6 +46,7 @@ class ProfileMenuView : public ProfileMenuViewBase {
+   gfx::ImageSkia GetSyncIcon() const override;
+ 
+  private:
++  BEACON_PROFILE_MENU_VIEW_H
+   friend class ProfileMenuViewExtensionsTest;
+   friend class ProfileMenuViewSignoutTest;
+   friend class ProfileMenuViewSyncErrorButtonTest;
