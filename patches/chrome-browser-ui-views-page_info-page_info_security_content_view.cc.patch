@@ -1,0 +1,13 @@
+diff --git a/chrome/browser/ui/views/page_info/page_info_security_content_view.cc b/chrome/browser/ui/views/page_info/page_info_security_content_view.cc
+index e26da38131d77d44dedc44ccf4b9102bf65d1ba6..7a69bc9ef7bb3444f7eec2e29719f5e8b1110803 100644
+--- a/chrome/browser/ui/views/page_info/page_info_security_content_view.cc
++++ b/chrome/browser/ui/views/page_info/page_info_security_content_view.cc
+@@ -58,7 +58,7 @@ void PageInfoSecurityContentView::SetIdentityInfo(
+                             base::Unretained(this)));
+   }
+ 
+-  if (identity_info.certificate) {
++  if (identity_info.certificate && !identity_info.certificate->is_dnssec_cert) {
+     certificate_ = identity_info.certificate;
+ 
+     // Show information about the page's certificate.

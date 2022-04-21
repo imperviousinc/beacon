@@ -1,0 +1,20 @@
+diff --git a/net/cert/x509_certificate.cc b/net/cert/x509_certificate.cc
+index 238761e71866237084476a402309ba09930c7dd1..4e7f266c7df7d09d41273b0a21266049a9a5dd43 100644
+--- a/net/cert/x509_certificate.cc
++++ b/net/cert/x509_certificate.cc
+@@ -218,6 +218,7 @@ scoped_refptr<X509Certificate> X509Certificate::CreateFromPickleUnsafeOptions(
+       return nullptr;
+     cert_chain.push_back(base::StringPiece(data, data_length));
+   }
++  BEACON_X509_CERT_PICKLE_READ
+   return CreateFromDERCertChainUnsafeOptions(cert_chain, options);
+ }
+ 
+@@ -314,6 +315,7 @@ void X509Certificate::Persist(base::Pickle* pickle) const {
+     pickle->WriteString(
+         x509_util::CryptoBufferAsStringPiece(intermediate.get()));
+   }
++  BEACON_X509_CERT_PICKLE_PERSIST
+ }
+ 
+ bool X509Certificate::GetSubjectAltName(

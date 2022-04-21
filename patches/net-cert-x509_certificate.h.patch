@@ -1,0 +1,12 @@
+diff --git a/net/cert/x509_certificate.h b/net/cert/x509_certificate.h
+index 02e550f861937f46f0a8ca9f1f7e38951c5d5a64..2d2a189d44f5538c77f8eb5b6cc294166a7bac2a 100644
+--- a/net/cert/x509_certificate.h
++++ b/net/cert/x509_certificate.h
+@@ -267,6 +267,7 @@ class NET_EXPORT X509Certificate
+ 
+   // Returns true if the certificate is self-signed.
+   static bool IsSelfSigned(const CRYPTO_BUFFER* cert_buffer);
++  BEACON_X509_CERT_PROPERTIES
+ 
+  private:
+   friend class base::RefCountedThreadSafe<X509Certificate>;

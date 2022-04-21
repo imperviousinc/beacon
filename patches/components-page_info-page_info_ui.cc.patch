@@ -1,0 +1,25 @@
+diff --git a/components/page_info/page_info_ui.cc b/components/page_info/page_info_ui.cc
+index dc41aa1f9ad79cafd47d53a372a641783835ba79..0c69225c81bd60c6a326a02871d2e4fd4e586290 100644
+--- a/components/page_info/page_info_ui.cc
++++ b/components/page_info/page_info_ui.cc
+@@ -514,7 +514,19 @@ PageInfoUI::GetSecurityDescription(const IdentityInfo& identity_info) const {
+                                            IDS_PAGE_INFO_MIXED_CONTENT_DETAILS,
+                                            SecurityDescriptionType::CONNECTION);
+         default:
+-
++          if (identity_info.certificate->is_dnssec_cert) {
++            auto description = CreateSecurityDescription(
++              SecuritySummaryColor::GREEN, IDS_BEACON_PAGE_INFO_DNSSEC_SECURE_SUMMARY,
++              base::FeatureList::IsEnabled(
++                  omnibox::kUpdatedConnectionSecurityIndicators)
++                  ? IDS_PAGE_INFO_SECURE_DETAILS_V2
++                  : IDS_PAGE_INFO_SECURE_DETAILS,
++              SecurityDescriptionType::CONNECTION);
++            description->details = l10n_util::GetStringFUTF16(
++                IDS_BEACON_PAGE_INFO_DNSSEC_SECURE_DETAILS,
++                base::UTF8ToUTF16(identity_info.site_identity));
++            return description;    
++          }
+           auto description = CreateSecurityDescription(
+               SecuritySummaryColor::GREEN, IDS_PAGE_INFO_SECURE_SUMMARY,
+               base::FeatureList::IsEnabled(
