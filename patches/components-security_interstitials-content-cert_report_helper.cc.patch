@@ -1,0 +1,12 @@
+diff --git a/components/security_interstitials/content/cert_report_helper.cc b/components/security_interstitials/content/cert_report_helper.cc
+index da1876ef2370fb448c3e1dade4a32ec804b00756..cf79cb16a7b7beb63c11984c4aa072a01e10040a 100644
+--- a/components/security_interstitials/content/cert_report_helper.cc
++++ b/components/security_interstitials/content/cert_report_helper.cc
+@@ -204,6 +204,7 @@ bool CertReportHelper::ShouldShowEnhancedProtectionMessage() {
+   // the window is not incognito AND
+   // Safe Browsing is not managed by policy AND
+   // the user is not already in enhanced protection mode.
++  BEACON_CERT_REPORT_HELPER_SHOULD_SHOW_ENHANCED_PROTECTION_MESSAGE
+   if (!can_show_enhanced_protection_message_) {
+     return false;
+   }

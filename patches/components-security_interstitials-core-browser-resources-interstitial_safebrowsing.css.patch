@@ -1,0 +1,13 @@
+diff --git a/components/security_interstitials/core/browser/resources/interstitial_safebrowsing.css b/components/security_interstitials/core/browser/resources/interstitial_safebrowsing.css
+index c09210a9ccd62b0b2bb252fa9c181aa58236f449..e01a068f3c8747ca6b037fe859dd387b1b364f89 100644
+--- a/components/security_interstitials/core/browser/resources/interstitial_safebrowsing.css
++++ b/components/security_interstitials/core/browser/resources/interstitial_safebrowsing.css
+@@ -1,7 +1,7 @@
+ /* Copyright 2017 The Chromium Authors. All rights reserved.
+  * Use of this source code is governed by a BSD-style license that can be
+  * found in the LICENSE file. */
+-
++#extended-reporting-opt-in { display: none !important; }
+ body.safe-browsing {
+   --google-red-900: rgb(165, 14, 14);
+   --google-red-700: rgb(197, 34, 31);
