@@ -1,0 +1,12 @@
+# src/chrome/services/math/public/mojom/BUILD.gn
+import("//mojo/public/tools/bindings/mojom.gni")
+
+mojom("mojom") {
+  sources = [
+    "trust_service.mojom",
+  ]
+
+  public_deps = [
+    "//sandbox/policy/mojom",
+  ]
+}

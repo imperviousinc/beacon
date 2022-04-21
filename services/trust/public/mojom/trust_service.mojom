@@ -1,0 +1,8 @@
+module trust.mojom;
+
+import "sandbox/policy/mojom/sandbox.mojom";
+
+[ServiceSandbox=sandbox.mojom.Sandbox.kNoSandbox]
+interface TrustService {
+  Launch();
+};
