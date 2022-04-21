@@ -1,0 +1,20 @@
+diff --git a/content/browser/network_service_instance_impl.cc b/content/browser/network_service_instance_impl.cc
+index ed64afb2fac56d05332b4fd7e2dcfe4726ab319c..2c6724157ee7a84b82c849e6879d4b4e48d77fcf 100644
+--- a/content/browser/network_service_instance_impl.cc
++++ b/content/browser/network_service_instance_impl.cc
+@@ -951,6 +951,7 @@ class NetworkServiceInstancePrivate {
+ };
+ 
+ network::mojom::NetworkService* GetNetworkService() {
++  BEACON_GET_TRUST_SERVICE
+   if (!g_network_service_remote)
+     g_network_service_remote = new mojo::Remote<network::mojom::NetworkService>;
+   if (!g_network_service_remote->is_bound() ||
+@@ -1159,6 +1160,7 @@ void ResetNetworkServiceForTesting() {
+ }
+ 
+ void ShutDownNetworkService() {
++  BEACON_SHUTDOWN_TRUST_SERVICE
+   delete g_network_service_remote;
+   g_network_service_remote = nullptr;
+   delete g_client;
