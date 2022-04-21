@@ -1,0 +1,9 @@
+beacon_lib_name = "libbeacon.so"
+
+if (is_win) {
+    beacon_lib_name = "beacon.dll"
+} else if (is_mac) {
+    beacon_lib_name = "libbeacon.dylib"
+} 
+
+beacon_lib_out = "$root_out_dir/$beacon_lib_name"

@@ -1,0 +1,38 @@
+import("config.gni")
+import("//build/config/clang/clang.gni")
+
+
+action("build") {
+  script = "build_libs.py"
+  base_path = rebase_path("$clang_base_path")
+  lib_output_path = rebase_path("$beacon_lib_out")
+  args = [
+      "--clang-base-dir=$base_path",
+      "--output=$lib_output_path",
+      "--depfile=${lib_output_path}.d",
+  ]
+  if (target_cpu != host_cpu) {
+    args += [
+       "--target=$target_cpu",
+    ]
+  }
+  
+  outputs = [ "$beacon_lib_out" ]
+  depfile = "${beacon_lib_out}.d" 
+}
+
+bundle_data("build_and_bundle") {
+  sources = [ "$beacon_lib_out" ]
+  outputs = [ "{{bundle_contents_dir}}/Libraries/{{source_file_part}}" ]
+  public_deps = [ ":build" ]
+}
+
+group("beacon_libraries") {
+    public_deps = []
+    
+    if (is_mac) {
+        public_deps += [ ":build_and_bundle" ]
+    } else {
+        public_deps += [ ":build" ]
+    }
+}

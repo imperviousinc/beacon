@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HNS internals</title>
+    <style>
+        li {
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h2>HNS Internals</h2>
+    <ul>
+        <li>
+            Height: <span id="block-height"></span>
+        </li>
+        <li>
+            Total peers: <span id="total-peers"></span>
+        </li>
+        <li>
+            Active peers: <span id="active-peers"></span>
+        </li>
+        <li>
+            <span style="margin-bottom:0.3em">Urkel tree root:</span>
+            <div id="urkel-root"></div>
+        </li>
+    </ul>
+
+    <script>
+        let currentSlide = 0;
+        let lastUrkel = '';
+        let synced = false;
+
+        const blockHeight = document.getElementById('block-height');
+        const totalPeers = document.getElementById('total-peers');
+        const activePeers = document.getElementById('active-peers');
+        const urkelRoot = document.getElementById('urkel-root');
+       
+        async function updateUI() {
+            let res = null;
+            try {
+                res = await window.fetch("info.json");
+            } catch (e) {
+                console.log(e);
+                return;
+            }
+
+            if (res.status !== 200) {
+                console.log(res);
+                return;
+            }
+
+            const data = await res.json();
+
+            if (!data) return;
+            urkelRoot.textContent = data.urkel.trim();
+            totalPeers.textContent = data.totalPeers;
+            activePeers.textContent = data.activePeers;
+            blockHeight.textContent = data.height === 0 ?
+                "Syncing ..." : data.height;
+        }
+
+        setInterval(updateUI, 500);
+    </script>
+</body>
+
+</html>

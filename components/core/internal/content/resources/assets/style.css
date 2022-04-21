@@ -1,0 +1,156 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('fonts/roboto/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Bold';
+    src: url('fonts/roboto/Roboto-Black.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Light';
+    font-weight: 200;
+    src: url('fonts/roboto/Roboto-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Thin';
+    font-weight: 200;
+    src: url('fonts/roboto/Roboto-Thin.ttf');
+}
+
+html,
+body {
+    font-family: 'Roboto';
+    background: #DDE1E2;
+    color: #222;
+}
+
+.logo {
+    max-width: 520px;
+    margin: 0 auto;
+    margin-top: 4em;
+    text-align: center;
+}
+
+.logo img {
+    max-width: 5.5em;
+}
+
+.promo {
+    font-family: 'Roboto Light';
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 2em;
+    max-width: 540px;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+.promo-2 {
+    font-family: 'Roboto Light';
+    font-size: 1em;
+    text-align: left;
+    line-height: 2em;
+    max-width: 510px;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+.promo small {
+    margin-top: 4em;
+    display: block;
+    color: rgb(104, 102, 102);
+
+}
+
+.cta {
+    margin-top: 3em;
+}
+
+.action {
+    display: inline-block;
+    border: 1px solid;
+    padding: 1em 1.5em;
+    border-radius: 2em;
+    text-decoration: none;
+    color: #fff;
+    background-color: #026eda;
+    font-family: 'Roboto Light';
+    font-size: 14px;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.slide {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+
+    transition: slide 1s;
+}
+
+.showing {
+    opacity: 1;
+    left: 100;
+    z-index: 2;
+}
+
+#active-block {
+    stroke-dasharray: 8, 10;
+    animation: 100s linear 0s stroke-offset infinite;
+    stroke: black;
+}
+
+@keyframes stroke-offset {
+    100% {
+        stroke-dashoffset: 5000;
+    }
+}
+
+.fill-text {
+    fill:red !important;
+    transition: fill 100ms cubic-bezier(0.55, 0.085, 0.68, 0.53); 
+
+}
+
+.action-secondary {
+    background: #666768;
+}
+
+.sync-bar-outer {
+    height: 20px;
+    background: #74A4B2;
+    border-radius: 2px;
+    border: 3px solid #000000;
+}
+
+.sync-bar {
+    width: 0%;
+    height: 20px;
+    background: #026EDA;
+    border-radius: 0px;
+    transition: width 0.5s;
+}
+
+.sync-bar-block-height {
+    text-align: center;
+    margin-bottom: 1em;
+    margin-top: 2em;
+}
+
+/* hide/show animation */
+.slide {
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+}
+
+.showing {
+    transition-timing-function: ease-in;
+    transition: 0.4s;
+}

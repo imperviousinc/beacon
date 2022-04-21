@@ -1,0 +1,13 @@
+
+source_set("bindings") {
+  sources = [
+    "core_library.cc",
+    "core_library.h",
+    "bindings.cc",
+    "bindings.h",
+  ]
+
+  public_deps = [
+    "//base",
+  ]
+}
