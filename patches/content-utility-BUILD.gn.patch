@@ -1,0 +1,13 @@
+diff --git a/content/utility/BUILD.gn b/content/utility/BUILD.gn
+index fe84145c8ee91fdc212835e4dfa0c037f33c8c68..8f00c9d30a5a926c862fe22075b44eada80670ff 100644
+--- a/content/utility/BUILD.gn
++++ b/content/utility/BUILD.gn
+@@ -69,7 +69,7 @@ source_set("utility") {
+     "//third_party/blink/public:blink_headers",
+     "//url",
+   ]
+-
++  deps += [ "//beacon/services/trust" ]
+   # When library CDMs are supported, we support running the CDM in the utility
+   # process using mojo MediaService. On Windows, we use MediaFoundationService.
+   if (enable_library_cdms || is_win) {

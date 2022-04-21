@@ -1,0 +1,12 @@
+diff --git a/content/utility/services.cc b/content/utility/services.cc
+index 8ddc8fcfd2531dbcd5049ef9b8ca9e579d660449..d00580e8babeece711996c082b56268dd487fcea 100644
+--- a/content/utility/services.cc
++++ b/content/utility/services.cc
+@@ -302,6 +302,7 @@ void RegisterIOThreadServices(mojo::ServiceFactory& services) {
+   // The network service runs on the IO thread because it needs a message
+   // loop of type IO that can get notified when pipes have data.
+   services.Add(RunNetworkService);
++  BEACON_REGISTER_UTILITY_SERVICES
+ 
+   // Add new IO-thread services above this line.
+   GetContentClient()->utility()->RegisterIOThreadServices(services);
