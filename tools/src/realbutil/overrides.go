@@ -36,49 +36,6 @@ var beaconResourcesOverrides = []string{
 	"overrides", "",
 }
 
-func appendToPolymerBundle(chromiumSrcDir string) {
-	// third_party\polymer\v3_0\components-chromium\polymer\polymer_bundled.min.js
-	polymerBundle := filepath.Join(chromiumSrcDir,
-		"third_party/polymer/v3_0",
-		"components-chromium/polymer/polymer_bundled.min.js")
-
-	beaconOverride := filepath.Join(chromiumSrcDir, "beacon", "browser",
-		"ui", "webui", "beacon_polymer.js")
-
-	mustExist(polymerBundle)
-	mustExist(beaconOverride)
-
-	originalBundle := polymerBundle + ".old"
-	hasCopy := fileExists(originalBundle)
-
-	readFrom := polymerBundle
-	if hasCopy {
-		readFrom = originalBundle
-	}
-
-	content, err := os.ReadFile(readFrom)
-	if err != nil {
-		panic(err)
-	}
-
-	if !hasCopy {
-		err := writeFile(originalBundle, content)
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	appendContent, err := os.ReadFile(beaconOverride)
-	if err != nil {
-		panic(err)
-	}
-
-	err = writeFile(polymerBundle, append(content, appendContent...))
-	if err != nil {
-		panic(err)
-	}
-}
-
 func beaconModGRDAll(modSrcDir, chromiumSrcDir string, dry bool) error {
 	walkFunc := func(grdOverridePath string, overrideInfo fs.FileInfo, err error) error {
 		if err != nil || overrideInfo.IsDir() {
