@@ -1,0 +1,43 @@
+diff --git a/chrome/installer/util/prebuild/create_installer_string_rc.py b/chrome/installer/util/prebuild/create_installer_string_rc.py
+index 7a019df9fcc73a8bf3dba98f7e180e073f479800..74845b006c7c892f2cc241bb13eb1233d23fbf59 100755
+--- a/chrome/installer/util/prebuild/create_installer_string_rc.py
++++ b/chrome/installer/util/prebuild/create_installer_string_rc.py
+@@ -53,6 +53,9 @@ MODE_SPECIFIC_STRINGS = {
+     'chromium': [
+       'IDS_APP_SHORTCUTS_SUBDIR_NAME',
+     ],
++    'beacon': [
++      'IDS_APP_SHORTCUTS_SUBDIR_NAME',
++    ],
+   },
+   'IDS_INBOUND_MDNS_RULE_DESCRIPTION': {
+     'google_chrome': [
+@@ -64,6 +67,9 @@ MODE_SPECIFIC_STRINGS = {
+     'chromium': [
+       'IDS_INBOUND_MDNS_RULE_DESCRIPTION',
+     ],
++    'beacon': [
++      'IDS_INBOUND_MDNS_RULE_DESCRIPTION',
++    ],
+   },
+   'IDS_INBOUND_MDNS_RULE_NAME': {
+     'google_chrome': [
+@@ -75,6 +81,9 @@ MODE_SPECIFIC_STRINGS = {
+     'chromium': [
+       'IDS_INBOUND_MDNS_RULE_NAME',
+     ],
++    'beacon': [
++      'IDS_INBOUND_MDNS_RULE_NAME',
++    ],
+   },
+   # In contrast to the strings above, this one (IDS_PRODUCT_NAME) is used
+   # throughout Chrome in mode-independent contexts. Within the installer (the
+@@ -90,5 +99,8 @@ MODE_SPECIFIC_STRINGS = {
+     'chromium': [
+       'IDS_PRODUCT_NAME',
+     ],
++    'beacon': [
++      'IDS_PRODUCT_NAME',
++    ],    
+   },
+ }
