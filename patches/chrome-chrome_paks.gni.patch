@@ -1,0 +1,20 @@
+diff --git a/chrome/chrome_paks.gni b/chrome/chrome_paks.gni
+index cd468f580cb63724a4a7344a21189e4a54dd5cd0..6106e73dfbba8655596d417beb4bf5f5bbb93fdf 100644
+--- a/chrome/chrome_paks.gni
++++ b/chrome/chrome_paks.gni
+@@ -56,6 +56,7 @@ template("chrome_repack_percent") {
+     if (defined(invoker.deps)) {
+       deps += invoker.deps
+     }
++    import("//beacon/beacon_repack_percent.gni") sources += beacon_chrome_repack_percent_sources deps += beacon_chrome_repack_percent_deps
+ 
+     if (toolkit_views) {
+       sources += [ "$root_gen_dir/ui/views/resources/views_resources_${percent}_percent.pak" ]
+@@ -392,6 +393,7 @@ template("chrome_extra_paks") {
+         "//chrome/browser/resources/chromeos/chromebox_for_meetings:resources",
+       ]
+     }
++    import("//beacon/beacon_extra_paks.gni") sources += beacon_chrome_extra_paks_sources deps += beacon_chrome_extra_paks_deps 
+   }
+ }
+ 

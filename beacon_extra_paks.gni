@@ -1,0 +1,15 @@
+# Imported into chrome_paks.gni in chrome_extra_paks scope
+beacon_chrome_extra_paks_sources = []
+beacon_chrome_extra_paks_deps = []
+
+if (!is_android) {
+    beacon_chrome_extra_paks_sources += [ 
+        "$root_gen_dir/chrome/beacon_welcome_resources.pak",
+        "$root_gen_dir/chrome/beacon_hns_internals_resources.pak",  
+    ]
+
+    beacon_chrome_extra_paks_deps += [ 
+        "//beacon/components/welcome:resources",
+        "//beacon/components/hns_internals:resources"  
+    ]
+}

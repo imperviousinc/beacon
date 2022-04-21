@@ -1,0 +1,9 @@
+# Generates a rule to repack a set of resources, substituting a given string
+# in for the percentage (e.g. "100", "200"). It generates the repacked files in
+# the "gen" directory, and then introduces a copy rule to copy it to the root
+# build directory.
+#
+# This will be imported into chrome_paks.gni chrome_repack_percent template scope
+# you have access to the "$percent" variable
+beacon_chrome_repack_percent_sources = []
+beacon_chrome_repack_percent_deps = []
