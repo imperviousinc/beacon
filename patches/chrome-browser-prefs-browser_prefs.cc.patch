@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/prefs/browser_prefs.cc b/chrome/browser/prefs/browser_prefs.cc
+index 94cf3615137ad9b54daab18c53a57d29657c125d..3465f17ca74200146672c448ad562c196134dcbd 100644
+--- a/chrome/browser/prefs/browser_prefs.cc
++++ b/chrome/browser/prefs/browser_prefs.cc
+@@ -1500,6 +1500,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
+   registry->RegisterBooleanPref(prefs::kPrivacyGuideViewed, false);
+ 
+   RegisterProfilePrefsForMigration(registry);
++  beacon::RegisterProfilePrefs(registry);
+ }
+ 
+ void RegisterUserProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
