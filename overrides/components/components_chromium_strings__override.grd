@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grit>
+    <release seq="1">
+        <messages fallback_to_english="true">
+            <!-- This should override IDS_VERSION_UI_LICENSE in the original file -->
+            <beacon-override:message name="IDS_VERSION_UI_LICENSE" desc="The label below the copyright message, containing the URLs.">
+                Beacon is made possible by the <ph name="BEGIN_LINK_CHROMIUM">&lt;a target=&quot;_blank&quot; href=&quot;$1&quot;&gt;</ph>Chromium<ph name="END_LINK_CHROMIUM">&lt;/a&gt;</ph> open source project and other <ph name="BEGIN_LINK_OSS">&lt;a target=&quot;_blank&quot; href=&quot;$2&quot;&gt;</ph>open source software<ph name="END_LINK_OSS">&lt;/a&gt;</ph>.
+            </beacon-override:message>
+        </messages>
+    </release>
+</grit>
