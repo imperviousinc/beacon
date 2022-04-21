@@ -1,0 +1,25 @@
+diff --git a/chrome/app/chrome_dll.rc b/chrome/app/chrome_dll.rc
+index d299571ac031f4b3ff964fbf2dd865ba31bdd0bf..e4e97b6ab49af6e87ad6b1ca358787f51678bdde 100644
+--- a/chrome/app/chrome_dll.rc
++++ b/chrome/app/chrome_dll.rc
+@@ -164,6 +164,12 @@ END
+ // the icon from the current module). We can perhaps work around this in the
+ // future to get the icon from the .exe, which would save a copy.
+ 
++#if defined(OFFICIAL_BUILD)
++IDR_MAINFRAME       ICON                        "theme\beacon\win\beacon.ico"
++#else
++IDR_MAINFRAME       ICON                        "theme\beacon\win\beacon_development.ico"
++#endif
++#if 0
+ #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
+ IDR_MAINFRAME       ICON                        "theme\google_chrome\win\chrome.ico"
+ IDR_SXS             ICON                        "theme\google_chrome\win\chrome_sxs.ico"
+@@ -172,6 +178,7 @@ IDR_X005_BETA       ICON                        "theme\google_chrome\win\chrome_
+ #else
+ IDR_MAINFRAME       ICON                        "theme\chromium\win\chromium.ico"
+ #endif
++#endif
+ 
+ // We include these resources because all ICON types need to be in the
+ // same .rc file.  See:
