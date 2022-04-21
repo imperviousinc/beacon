@@ -1,0 +1,12 @@
+diff --git a/net/BUILD.gn b/net/BUILD.gn
+index e552ba7221dcddb88f3204e1789e2aebf5fae962..841ac9764cd0e07f2dd61cbe65757081237ffd05 100644
+--- a/net/BUILD.gn
++++ b/net/BUILD.gn
+@@ -1148,6 +1148,7 @@ component("net") {
+       "reporting/reporting_uploader.h",
+     ]
+   }
++  sources += beacon_net_sources
+ 
+   if (is_android) {
+     sources += [

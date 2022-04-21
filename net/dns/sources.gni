@@ -1,0 +1,4 @@
+beacon_net_sources = [
+  "//beacon/net/dns/beacon_resolve_context.cc",
+  "//beacon/net/dns/beacon_resolve_context.h",
+]

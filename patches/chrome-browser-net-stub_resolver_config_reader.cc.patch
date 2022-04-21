@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/net/stub_resolver_config_reader.cc b/chrome/browser/net/stub_resolver_config_reader.cc
+index afb28697d0aabca0acce4ee2f4beee63f5ffd78d..c6bfa75acdcd18ba8cbfd9a868e55676f6995a40 100644
+--- a/chrome/browser/net/stub_resolver_config_reader.cc
++++ b/chrome/browser/net/stub_resolver_config_reader.cc
+@@ -369,6 +369,7 @@ SecureDnsConfig StubResolverConfigReader::GetAndUpdateConfiguration(
+   if (secure_dns_mode != net::SecureDnsMode::kOff) {
+     doh_config = net::DnsOverHttpsConfig::FromStringLax(
+         local_state_->GetString(prefs::kDnsOverHttpsTemplates));
++    BEACON_GET_AND_UPDATE_CONFIGURATION    
+   }
+   if (update_network_service) {
+     content::GetNetworkService()->ConfigureStubHostResolver(

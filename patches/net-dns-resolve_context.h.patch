@@ -1,0 +1,13 @@
+diff --git a/net/dns/resolve_context.h b/net/dns/resolve_context.h
+index d9063ae8eb172ae4d52e395651c50521992668dc..4dfcb109d7f9abc34b1afb477104397e6fc59ba1 100644
+--- a/net/dns/resolve_context.h
++++ b/net/dns/resolve_context.h
+@@ -198,7 +198,7 @@ class NET_EXPORT_PRIVATE ResolveContext : public base::CheckedObserver {
+   base::WeakPtr<ResolveContext> GetWeakPtr() {
+     return weak_ptr_factory_.GetWeakPtr();
+   }
+-
++ BEACON_RESOLVE_CONTEXT_H
+  private:
+   friend DohDnsServerIterator;
+   friend ClassicDnsServerIterator;
