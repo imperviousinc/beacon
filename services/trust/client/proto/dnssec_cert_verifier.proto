@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+option optimize_for = LITE_RUNTIME;
+option go_package = "github.com/imperviousinc/beacon/core/client/proto";
+
+package dnssec_cert_verifier;
+
+service CertVerifier {
+  rpc VerifyCert (CertVerifyRequest) returns (CertVerifyResponse) {}
+}
+
+message CertVerifyRequest {
+  string host = 1;
+  string port = 2;
+  Certificate cert = 3;
+}
+
+message CertVerifyResponse {
+  Certificate verified_cert = 1;
+  SecurityState state = 2;
+  ErrorCode code = 3;
+  string additional_info = 4;
+}
+
+message Certificate {
+    repeated bytes der_certs = 1;
+}
+
+enum SecurityState {
+  // Check error code for more details.
+  BOGUS = 0;
+
+  // Certificate was validated successfully.
+  SECURE = 1;
+
+  // Fallback to WebPKI validation or fail.
+  INSECURE = 2;
+}
+
+enum ErrorCode {
+  UNKNOWN_ERROR = 0;
+
+  // DNSSEC errors
+  ERR_DNSSEC_BOGUS = 1;
+
+  ERR_DNSSEC_SIGNATURE_EXPIRED = 2;
+
+  ERR_DNSSEC_SIGNATURE_MISSING = 3;
+
+  ERR_DNSSEC_DNSKEY_MISSING = 4;
+
+  ERR_DNSSEC_NSEC_MISSING = 5;
+
+  ERR_DNSSEC_PINNED_KEY_NOT_IN_CERT_CHAIN = 6;
+
+  ERR_DNSSEC_FETCH_FAILED = 7;
+
+  ERR_DNSSEC_FETCH_TIMED_OUT = 8;
+
+  // HNS errors
+  ERR_HNS_IS_SYNCING = 9;
+
+  ERR_HNS_NO_PEERS = 10;
+
+  ERR_HNS_PEER_TIMED_OUT = 11;
+
+  ERR_HNS_REQUEST_FAILED = 12;
+
+  ERR_HNS_HIP5_HANDLER_TIMED_OUT = 13;
+
+  ERR_HNS_HIP5_HANDLER_FAILED = 14;
+
+  // Trust service communication errors
+  ERR_TRUST_SERVICE_REQUEST_FAILED = 15;
+
+  ERR_TRUST_SERVICE_REQUEST_TIMED_OUT = 16;
+
+  ERR_TRUST_SERVICE_REQUEST_INVALID = 17;
+
+  ERR_TRUST_SERVICE_RESPONSE_INVALID = 18;
+
+  // Some net errors from chromium
+  ERR_DNS_SECURE_RESOLVER_HOSTNAME_RESOLUTION_FAILED = 19;
+
+  ERR_DNS_TIMED_OUT = 20;
+
+  ERR_DNS_SERVER_FAILED = 21;
+
+  ERR_DNS_MALFORMED_RESPONSE = 22;
+
+  ERR_DNS_REQUEST_CANCELLED = 23;
+
+  // Cert errors from chromium
+  ERR_CERT_COMMON_NAME_INVALID = 24;
+
+  ERR_CERT_DATE_INVALID = 25;
+
+  ERR_CERT_AUTHORITY_INVALID = 26;
+
+  ERR_CERT_REVOKED = 27;
+
+  ERR_CERT_INVALID = 28;
+
+  ERR_CERT_WEAK_SIGNATURE_ALGORITHM = 29;
+
+  ERR_CERT_NON_UNIQUE_NAME = 30;
+
+  ERR_CERT_WEAK_KEY = 31;
+
+  ERR_CERT_NAME_CONSTRAINT_VIOLATION = 32;
+
+  ERR_CERT_VALIDITY_TOO_LONG = 33;
+
+  ERR_CERT_KNOWN_INTERCEPTION_BLOCKED = 34;
+
+  // Some other generic errors
+  ERR_FAILED = 35;
+
+  ERR_ABORTED = 36;
+
+  ERR_UNEXPECTED = 37;
+};
+
