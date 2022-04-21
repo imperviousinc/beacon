@@ -1,0 +1,12 @@
+diff --git a/components/security_interstitials/core/ssl_error_options_mask.cc b/components/security_interstitials/core/ssl_error_options_mask.cc
+index b6d658b74da22af1ba9791d56ad5cf4fe855a48b..6b4e0d2226101877b54c7600a1e90bb6bccb5a44 100644
+--- a/components/security_interstitials/core/ssl_error_options_mask.cc
++++ b/components/security_interstitials/core/ssl_error_options_mask.cc
+@@ -12,6 +12,7 @@ namespace security_interstitials {
+ namespace {
+ 
+ int IsCertErrorFatal(int cert_error) {
++  BEACON_IS_CERT_ERROR_FATAL
+   switch (cert_error) {
+     case net::ERR_CERT_COMMON_NAME_INVALID:
+     case net::ERR_CERT_DATE_INVALID:

@@ -1,0 +1,12 @@
+diff --git a/components/ssl_errors/error_info.cc b/components/ssl_errors/error_info.cc
+index 79dda76617ae18f48bf5f28ee42f7569a2bd22c2..d474ccbfba6bdb01990308a75ef5bacdc475fa4a 100644
+--- a/components/ssl_errors/error_info.cc
++++ b/components/ssl_errors/error_info.cc
+@@ -192,6 +192,7 @@ ErrorInfo::~ErrorInfo() {}
+ 
+ // static
+ ErrorInfo::ErrorType ErrorInfo::NetErrorToErrorType(int net_error) {
++  BEACON_TRY_CUSTOM_ERROR_TYPES
+   switch (net_error) {
+     case net::ERR_CERT_COMMON_NAME_INVALID:
+       return CERT_COMMON_NAME_INVALID;
