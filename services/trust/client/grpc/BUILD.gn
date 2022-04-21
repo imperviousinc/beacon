@@ -1,0 +1,18 @@
+source_set("grpc") {
+  sources = [
+    "grpc_client.cc",
+    "grpc_client.h",
+    "grpc_client_cq_tag.h",
+    "grpc_client_thread.cc",
+    "grpc_client_thread.h",
+    "grpc_state.h",
+    "grpc_util.cc",
+    "grpc_util.h",
+  ]
+
+  public_deps = [
+    "//base",
+    "//third_party/grpc:grpc++",
+    "//beacon/services/trust/client/proto:dnssec_cert_verifier" 
+  ]
+}
