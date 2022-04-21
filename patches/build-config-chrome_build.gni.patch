@@ -1,0 +1,12 @@
+diff --git a/build/config/chrome_build.gni b/build/config/chrome_build.gni
+index 5c51d7f2cc3dba9c46a4081eb5d9969c9a6eb900..c89eef1cd126f64161dcecc6bb462f9b9a6829d8 100644
+--- a/build/config/chrome_build.gni
++++ b/build/config/chrome_build.gni
+@@ -1,6 +1,7 @@
+ # Copyright 2015 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+ # found in the LICENSE file.
++import("//beacon/build/config/beacon_build.gni")
+ 
+ declare_args() {
+   # Select the desired branding flavor. False means normal Chromium branding,

@@ -1,0 +1,76 @@
+import("//beacon/build/config.gni")
+import("//build/config/features.gni")
+import("//chrome/common/features.gni")
+import("//components/gcm_driver/config.gni")
+import("//mojo/public/tools/bindings/mojom.gni")
+
+source_set("ui") {
+  sources = [
+    "webui/beacon_web_ui_controller_factory.cc",
+    "webui/beacon_web_ui_controller_factory.h"
+  ]
+
+  if (!is_android) {
+    sources += [
+      "omnibox/beacon_omnibox_client_impl.cc",
+      "omnibox/beacon_omnibox_client_impl.h",
+      "webui/beacon_welcome/beacon_welcome_handler.cc",
+      "webui/beacon_welcome/beacon_welcome_handler.h",
+      "webui/beacon_welcome/beacon_welcome_ui.cc",
+      "webui/beacon_welcome/beacon_welcome_ui.h",
+      "webui/beacon_welcome/beacon_welcome_util.cc",
+      "webui/beacon_welcome/beacon_welcome_util.h",   
+    ]
+
+    sources += [
+      "webui/hns_internals/beacon_hns_internals_handler.cc",
+      "webui/hns_internals/beacon_hns_internals_handler.h",
+      "webui/hns_internals/beacon_hns_internals_ui.cc",
+      "webui/hns_internals/beacon_hns_internals_ui.h",
+      "webui/hns_internals/beacon_hns_internals_util.cc",
+      "webui/hns_internals/beacon_hns_internals_util.h",   
+    ]  
+  }
+
+  if (is_win || is_mac || is_linux) {
+    sources += [
+      "views/profiles/beacon_profile_menu_view.cc",
+      "views/profiles/beacon_profile_menu_view.h",
+    ]    
+  }
+
+  sources += [
+      "toolbar/beacon_location_bar_model_delegate.cc",
+      "toolbar/beacon_location_bar_model_delegate.h",
+  ]
+
+  deps = [
+    "//base",
+    "//beacon/components/welcome:resources",
+    "//beacon/components/hns_internals:resources",
+    # This works similar to Brave structure:
+    # //chrome/browser/ui depends on //beacon/browser/ui, add this target here
+    # to pull in dependencies needed for the overwrite codes in chromium_src.
+    "//beacon/chromium_src/chrome/browser/ui",
+    "//chrome/app:command_ids",
+    "//chrome/app/vector_icons:vector_icons",
+    "//chrome/browser:browser_process",
+    "//chrome/common",
+    "//chrome/services/qrcode_generator",
+    "//components/content_settings/browser",
+    "//components/gcm_driver:gcm_buildflags",
+    "//components/prefs",
+    "//components/sessions",
+    "//content/public/browser",
+    "//content/public/common",
+    "//services/network/public/cpp",
+    "//skia",
+    "//third_party/abseil-cpp:absl",
+    "//ui/accessibility",
+    "//ui/base",
+    "//ui/gfx",
+    "//ui/resources",
+    "//url",
+  ]
+}
+

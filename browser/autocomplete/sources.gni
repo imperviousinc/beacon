@@ -1,0 +1,9 @@
+beacon_browser_autocomplete_sources = [
+    "//beacon/browser/autocomplete/beacon_autocomplete_scheme_classifier.cc",
+    "//beacon/browser/autocomplete/beacon_autocomplete_scheme_classifier.h",
+]
+
+beacon_browser_autocomplete_deps = [
+    "//base",
+    "//beacon/common",
+]

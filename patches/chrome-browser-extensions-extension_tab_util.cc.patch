@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/extensions/extension_tab_util.cc b/chrome/browser/extensions/extension_tab_util.cc
+index e81672c4a613755fb6b46e2d8800a159c4f560d9..6a9acdaffb732999bf21d2e74b4f1f19722f4afe 100644
+--- a/chrome/browser/extensions/extension_tab_util.cc
++++ b/chrome/browser/extensions/extension_tab_util.cc
+@@ -795,6 +795,7 @@ bool ExtensionTabUtil::IsKillURL(const GURL& url) {
+   };
+ 
+   if (!url.SchemeIs(content::kChromeUIScheme))
++  if (!url.SchemeIs(content::kBeaconUIScheme))
+     return false;
+ 
+   return base::Contains(kill_hosts, url.host_piece());

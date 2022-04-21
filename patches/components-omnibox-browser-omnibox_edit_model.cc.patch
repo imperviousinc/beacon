@@ -1,0 +1,12 @@
+diff --git a/components/omnibox/browser/omnibox_edit_model.cc b/components/omnibox/browser/omnibox_edit_model.cc
+index 6735f7b60acbb50892c4825d0b98640a8614c78d..0eb0477011a85c711cbe04e57d707d02918d9445 100644
+--- a/components/omnibox/browser/omnibox_edit_model.cc
++++ b/components/omnibox/browser/omnibox_edit_model.cc
+@@ -414,6 +414,7 @@ void OmniboxEditModel::AdjustTextForCopy(int sel_min,
+       (*text == display_text_ || *text == url_for_editing_)) {
+     *url_from_text = controller()->GetLocationBarModel()->GetURL();
+     *write_url = true;
++    BEACON_ADJUST_TEXT_FOR_COPY
+ 
+     // Don't let users copy Reader Mode page URLs.
+     // We display the original article's URL in the omnibox, so users will

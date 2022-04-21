@@ -1,0 +1,12 @@
+diff --git a/content/renderer/render_thread_impl.cc b/content/renderer/render_thread_impl.cc
+index 03b92fd7a6218d3469648b96f273377d84c2f13f..c66e6a4232ac93d9f9de40dbf0579575dce504ea 100644
+--- a/content/renderer/render_thread_impl.cc
++++ b/content/renderer/render_thread_impl.cc
+@@ -987,6 +987,7 @@ void RenderThreadImpl::InitializeRenderer(
+ }
+ 
+ void RenderThreadImpl::RegisterSchemes() {
++  REGISTER_BEACON_SCHEMES_DISPLAY_ISOLATED_AND_NO_JS
+   // chrome:
+   WebString chrome_scheme(WebString::FromASCII(kChromeUIScheme));
+   WebSecurityPolicy::RegisterURLSchemeAsDisplayIsolated(chrome_scheme);

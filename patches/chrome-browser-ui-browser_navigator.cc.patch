@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/ui/browser_navigator.cc b/chrome/browser/ui/browser_navigator.cc
+index b7b60c8f9a0c6b2971c5f3f3673c990e93acb2ec..2f14e6636043c59a4af49d40038b74578d08f9ba 100644
+--- a/chrome/browser/ui/browser_navigator.cc
++++ b/chrome/browser/ui/browser_navigator.cc
+@@ -531,6 +531,7 @@ base::WeakPtr<content::NavigationHandle> Navigate(NavigateParams* params) {
+     // Block any navigation requests in locked fullscreen mode.
+     return nullptr;
+   }
++  BEACON_ADJUST_NAVIGATE_PARAMS_FOR_URL
+ 
+   // Open System Apps in their standalone window if necessary.
+   // TODO(crbug.com/1096345): Remove this code after we integrate with intent

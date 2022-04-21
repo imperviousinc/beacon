@@ -1,0 +1,41 @@
+import("//build/util/branding.gni")
+import("//beacon/build/config.gni")
+
+
+
+config("constants_configs") {
+    defines = []
+    if (is_mac) {
+        defines += [ "BEACON_PRODUCT_STRING=\"$chrome_product_full_name\"" ]
+    }
+}
+
+source_set("common") {
+    deps = [
+      "//base",
+      "//beacon/chromium_src:common",
+      "//components/version_info:channel",
+      "//extensions/buildflags",
+      "//services/service_manager",
+      "//ui/base",
+    ]
+    sources = [
+        "url_constants.cc",
+        "url_constants.h",
+    ]
+
+    if (!is_ios) {
+        sources += [
+            "beacon_content_client.cc",
+            "beacon_content_client.h",
+        ]
+
+        deps += [
+          "//chrome/common",
+          "//chrome/common:channel_info",
+          "//chrome/common:constants",
+          "//components/resources",
+          "//content/public/common",
+        ]
+    }
+}

@@ -1,0 +1,35 @@
+import("//beacon/components/core/config.gni")
+import("//beacon/browser/autocomplete/sources.gni")
+
+beacon_chrome_browser_deps = [
+    "//beacon/browser/ui",
+    "//beacon/components/core:beacon_libraries",
+    "//beacon/common",
+]
+
+beacon_chrome_browser_sources = [
+    "//beacon/browser/beacon_profile_prefs.cc",
+    "//beacon/browser/beacon_profile_prefs.h",
+]
+
+beacon_chrome_browser_defines = []
+beacon_chrome_browser_public_deps = []
+beacon_chrome_browser_libs = []
+beacon_chrome_browser_inputs = []
+
+beacon_chrome_browser_sources += beacon_browser_autocomplete_sources
+beacon_chrome_browser_deps += beacon_browser_autocomplete_deps
+
+if (is_win) {
+    beacon_chrome_browser_deps += [
+        "//chrome/install_static:install_static_util",
+        "//chrome/installer/util:with_no_strings",
+    ]
+}
+
+if (is_mac) {
+    beacon_chrome_framework_public_deps = []
+    beacon_chrome_framework_contents = []
+    beacon_chrome_framework_ldflags = []
+    beacon_chrome_framework_bundle_deps = []
+}
