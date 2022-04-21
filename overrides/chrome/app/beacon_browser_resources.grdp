@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<grit-part>
+  <message name="IDS_BEACON_WELCOME_TITLE" desc="Text for beaocn welcome page headline.">
+    Welcome to Beacon Beta
+  </message>
+  <message name="IDS_BEACON_DNSSEC_SECURED" desc="Text indicating that this page is secured by DNSSEC.">
+    Secured by DNSSEC.
+  </message>
+  <message name="IDS_BEACON_HANDSHAKE_SECURED" desc="Text indicating that this page is secured by Handshake root zone.">
+    Secured by Handshake
+  </message>
+  <message name="IDS_BEACON_DNSSEC_SIGNED_CERTIFICATE" desc="Text indicating that this certificate is DNSSEC signed.">
+    Certificate is DNSSEC signed.
+  </message>
+  <message name="IDS_BEACON_NAMESPACE_HANDSHAKE" desc="Text indicating that this site is on the Handshake namespace.">
+    Handshake
+  </message>
+</grit-part>
