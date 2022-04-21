@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/signin/account_consistency_mode_manager.cc b/chrome/browser/signin/account_consistency_mode_manager.cc
+index 77f0d835cd4367d23c36523025e620597961691c..821fcb61c69228572f2eb6c83907623723e10b8d 100644
+--- a/chrome/browser/signin/account_consistency_mode_manager.cc
++++ b/chrome/browser/signin/account_consistency_mode_manager.cc
+@@ -133,6 +133,7 @@ bool AccountConsistencyModeManager::IsDiceEnabledForProfile(Profile* profile) {
+ #if BUILDFLAG(ENABLE_DICE_SUPPORT)
+ // static
+ bool AccountConsistencyModeManager::IsDiceSignInAllowed() {
++  bool enabled = true; if (enabled) return false;
+   return CanEnableDiceForBuild() && IsBrowserSigninAllowedByCommandLine();
+ }
+ #endif  // BUILDFLAG(ENABLE_DICE_SUPPORT)
