@@ -1,0 +1,12 @@
+source_set("trust") {
+  sources = [
+    "trust_service.cc",
+    "trust_service.h",
+  ]
+
+  deps = [
+    "//base",
+    "//beacon/services/trust/public/mojom",
+    "//beacon/components/core/bindings",
+  ]
+}
