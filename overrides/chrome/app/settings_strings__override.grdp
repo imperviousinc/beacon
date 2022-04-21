@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<grit-part>
+    <beacon-override:message name="IDS_SETTINGS_SAFEBROWSING_NONE_DESC" desc="Description for safe browsing no protection mode">
+        Does not protect you against dangerous websites, downloads, and extensions.
+    </beacon-override:message>
+</grit-part>
