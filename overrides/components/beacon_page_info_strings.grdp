@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<grit-part>
+  <message name="IDS_BEACON_PAGE_INFO_DNSSEC_SECURE_SUMMARY" desc="A short summary phrase at the top of the Page Info bubble (which shows when you click the lock icon) that indicates that the connection to the current website is secured by dnssec.">
+    Secured by Handshake
+  </message>
+  <message name="IDS_BEACON_PAGE_INFO_HANDSHAKE_NAMESPACE_SUMMARY" desc="A short summary phrase at the top of the Page Info bubble (which shows when you click the lock icon) that indicates that this site domain is on the Handshake namespace.">
+    Handshake Namespace
+  </message>
+  <message name="IDS_BEACON_PAGE_INFO_DNSSEC_SECURE_DETAILS">
+     Handshake is a decentralized, permissionless naming protocol compatible with DNS where every peer is validating and in charge of managing the root zone. 
+  </message>
+  <message name="IDS_BEACON_PAGE_INFO_HANDSHAKE_NAMESPACE_DESCRIPTION" desc="Handshake namespace description in the expanded Page Info bubble">
+    Handshake is a decentralized, permissionless naming protocol compatible with DNS where every peer is validating and in charge of managing the root zone.
+  </message>
+</grit-part>

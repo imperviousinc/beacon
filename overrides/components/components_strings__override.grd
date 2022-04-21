@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grit>
+    <release seq="1">
+        <messages fallback_to_english="true">
+              <beacon-add:part file="beacon_page_info_strings.grdp" />
+        </messages>
+    </release>
+</grit>
