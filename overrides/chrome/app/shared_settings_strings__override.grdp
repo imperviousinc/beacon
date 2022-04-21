@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings-specific strings shared by Browser and Chrome OS settings -->
+<grit-part>
+<beacon-override:message name="IDS_SETTINGS_SYNC_SYNC_AND_NON_PERSONALIZED_SERVICES" desc="The name of the settings page and the label of the button that takes the user to manage their sync and non-personalized services settings.">
+    Autocomplete options
+</beacon-override:message>
+<beacon-override:message name="IDS_SETTINGS_NON_PERSONALIZED_SERVICES_SECTION_LABEL" desc="Title for a section that shows options for various Google services">
+    Other
+</beacon-override:message>
+</grit-part>
