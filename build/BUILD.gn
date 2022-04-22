@@ -1,0 +1,22 @@
+config("beacon_chromium_src_support") {
+# This is a trick for overriding chromium header files based on brave-core:
+# Add max priority "//beacon/chromium_src" include search path to be able to
+# redirect Chromium #include into our file if it exists.
+# For example, to override //base/macros.h, the overriden file must be
+# placed at //beacon/chromium_src/base/macros.h.
+    include_dirs = [ "//beacon/chromium_src" ]
+
+    # Add lowest priority "//.." include search path to be able to include original
+    # Chromium files using "src/" prefix.
+    # Adding the search path using "cflags" instead of "include_dirs" is important,
+    # because it should have the lowest priority to not break compile steps when a
+    # path clash is possible: //base/macros.h vs //third_party/v8/src/base/macros.h.
+    relative_root_dir = rebase_path("//..", root_build_dir)
+    cflags = [ "-I${relative_root_dir}" ]
+}
+
+config("compiler") {
+    configs = [
+        ":beacon_chromium_src_support",
+    ]
+}
