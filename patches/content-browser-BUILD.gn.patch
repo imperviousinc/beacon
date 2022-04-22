@@ -1,0 +1,22 @@
+diff --git a/content/browser/BUILD.gn b/content/browser/BUILD.gn
+index b533c5eff48c134ea364521a1b9d60624d2ffce4..2d57ee28f8c714b0c4f8b9cb47fd6e9b7ac04eb5 100644
+--- a/content/browser/BUILD.gn
++++ b/content/browser/BUILD.gn
+@@ -276,6 +276,8 @@ source_set("browser") {
+       "//chromeos/services/machine_learning/public/mojom",
+     ]
+   }
++  deps += [ "//beacon/services/trust" ]
++
+ 
+   public_deps = [
+     "//base",
+@@ -1252,6 +1254,8 @@ source_set("browser") {
+     "network_service_client.h",
+     "network_service_instance_impl.cc",
+     "network_service_instance_impl.h",
++    "//beacon/content/browser/trust_service_instance_impl.cc",
++    "//beacon/content/browser/trust_service_instance_impl.h",
+     "notification_service_impl.cc",
+     "notification_service_impl.h",
+     "notifications/blink_notification_service_impl.cc",

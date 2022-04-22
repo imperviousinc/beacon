@@ -9,6 +9,10 @@ group("browser_dependencies") {
         "browser",
         "chromium_src:browser",
     ]
+    
+    public_deps = [
+      "//beacon/services/trust"
+    ]
 }
 
 group("resources") { }
