@@ -1,0 +1,9 @@
+source_set("browser") {
+    sources = []
+}
+source_set("common") {
+    sources = []
+}
+source_set("renderer") {
+    sources = []
+}

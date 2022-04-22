@@ -1,0 +1,12 @@
+diff --git a/chrome/common/BUILD.gn b/chrome/common/BUILD.gn
+index e1dd4b21c378c6c4fe2e056e875ad7b243988123..7e077ff163d443d55e85c19cd404bc5e4abefea7 100644
+--- a/chrome/common/BUILD.gn
++++ b/chrome/common/BUILD.gn
+@@ -519,6 +519,7 @@ static_library("non_code_constants") {
+     "//printing/buildflags",
+     "//ui/base:buildflags",
+   ]
++  configs += [ "//beacon/common:constants_configs" ]
+ }
+ 
+ component("chrome_features") {

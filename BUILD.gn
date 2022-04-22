@@ -1,0 +1,63 @@
+import("//beacon/build/config.gni")
+import("//build/util/process_version.gni")
+if (is_mac) {
+  import("//beacon/build/mac/tweak_info_plist.gni")
+}
+
+group("browser_dependencies") {
+    deps = [
+        "browser",
+        "chromium_src:browser",
+    ]
+}
+
+group("resources") { }
+
+group("beacon") {
+    deps = [ "build/$target_os:beacon" ]
+    if (!is_android && !is_ios) {
+        deps += [
+            "//chrome"
+        ]
+    }
+}
+
+if (is_mac) {
+    group("beacon_app") {
+        deps = [ ":beacon_app_plist" ]
+    }
+
+    beacon_tweak_info_plist("beacon_app_plist") {
+    info_plist = "$root_gen_dir/chrome/chrome_app_plist_tweaked.plist"
+
+    args = [
+      "--beacon_channel=" + beacon_channel,
+      "--beacon_product_dir_name=" + beacon_product_dir_name,
+      "--beacon_version=" + beacon_version,
+    ]
+
+    if (skip_signing) {
+      args += [ "--skip_signing" ]
+    }
+
+    deps = [ "//chrome:chrome_app_plist" ]
+  }
+
+  beacon_tweak_info_plist("beacon_helper_plist") {
+    info_plist = "$root_gen_dir/chrome/chrome_helper_plist_tweaked.plist"
+
+    args = [
+      "--beacon_channel=" + beacon_channel,
+      "--beacon_product_dir_name=" + beacon_product_dir_name,
+      "--beacon_version=" + beacon_version,
+    ]
+
+    deps = [ "//chrome:chrome_helper_plist" ]
+  }
+}
+
+group("installer") {
+  if (is_mac) {
+    public_deps = [ "installer/mac" ]
+  }
+}

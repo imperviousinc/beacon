@@ -1,0 +1,12 @@
+diff --git a/chrome/browser/BUILD.gn b/chrome/browser/BUILD.gn
+index 9917fcf771ecbfceaba4c02164de620d2aaf0775..58de481c085889368dcee3ee5796ef3346b56700 100644
+--- a/chrome/browser/BUILD.gn
++++ b/chrome/browser/BUILD.gn
+@@ -2532,6 +2532,7 @@ static_library("browser") {
+   } else {
+     sources += [ "net/net_error_diagnostics_dialog_stub.cc" ]
+   }
++  import("//beacon/browser/sources.gni") sources += beacon_chrome_browser_sources deps += beacon_chrome_browser_deps public_deps += beacon_chrome_browser_public_deps defines += beacon_chrome_browser_defines libs += beacon_chrome_browser_libs inputs = beacon_chrome_browser_inputs
+ 
+   if (is_posix || is_fuchsia) {
+     sources += [

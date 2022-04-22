@@ -1,0 +1,15 @@
+diff --git a/chrome/installer/launcher_support/chrome_launcher_support.cc b/chrome/installer/launcher_support/chrome_launcher_support.cc
+index 6657390e3c31e81624c37a881639bf042563c6bc..7fc19e32b0a3f0823ecd42bba461cd159469021a 100644
+--- a/chrome/installer/launcher_support/chrome_launcher_support.cc
++++ b/chrome/installer/launcher_support/chrome_launcher_support.cc
+@@ -32,7 +32,10 @@ const wchar_t kInstallationRegKey[] = L"Software\\Chromium";
+ #endif
+ 
+ // Copied from util_constants.cc.
++const wchar_t kChromeExe[] = L"beacon.exe";
++#if 0
+ const wchar_t kChromeExe[] = L"chrome.exe";
++#endif
+ const wchar_t kUninstallStringField[] = L"UninstallString";
+ const wchar_t kVersionStringField[] = L"pv";
+ 
