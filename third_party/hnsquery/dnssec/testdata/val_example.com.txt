@@ -1,0 +1,120 @@
+[ZONE] origin: example.com., time: 20210824000000
+[TRUST_ANCHORS]
+example.com.            81925   IN      DS      31406 8 1 189968811E6EBA862DD6C209F75623D8D9ED9142
+example.com.            81925   IN      DS      31406 8 2 F78CF3344F72137235098ECBBD08947C2C9001C7F6A085A17F518B5D 8F6B916D
+example.com.            81925   IN      DS      31589 8 1 3490A6806D47F17A34C29E2CE80E8A999FFBE4BE
+example.com.            81925   IN      DS      31589 8 2 CDE0D742D6998AA554A92D890F8184C698CFAC8A26FA59875A990C03 E576343C
+example.com.            81925   IN      DS      43547 8 1 B6225AB2CC613E0DCA7962BDC2342EA4F1B56083
+example.com.            81925   IN      DS      43547 8 2 615A64233543F66F44D68933625B17497C89A70E858ED76A2145997E DF96A918
+
+; default minimum allowed rsa key size is 2048
+[DNSKEYS] min_rsa_keysize: 1024
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14064
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 5, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;example.com.                   IN      DNSKEY
+
+;; ANSWER SECTION:
+example.com.            1076    IN      DNSKEY  256 3 8 AwEAAd0r756MOcFM1jtDwNY/45mvMBIvpnxz7X7pIZ/KzhFuBQ8n7Wlo KUCvlrlF6hljlsO0dXDJUvY9N1Q+kjWGTVQjXRHwEngIfU8cVwOraYoM bIcp9ty0hSXqgijNu7sVVRrWfhsfyFI82AFMjXpoKwyaMUe8/VT4OUkl E5gdYXAR
+example.com.            1076    IN      DNSKEY  257 3 8 AwEAAZ0aqu1rJ6orJynrRfNpPmayJZoAx9Ic2/Rl9VQWLMHyjxxem3VU SoNUIFXERQbj0A9Ogp0zDM9YIccKLRd6LmWiDCt7UJQxVdD+heb5Ec4q lqGmyX9MDabkvX2NvMwsUecbYBq8oXeTT9LRmCUt9KUt/WOi6DKECxoG /bWTykrXyBR8elD+SQY43OAVjlWrVltHxgp4/rhBCvRbmdflunaPIgu2 7eE2U4myDSLT8a4A0rB5uHG4PkOa9dIRs9y00M2mWf4lyPee7vi5few2 dbayHXmieGcaAHrx76NGAABeY393xjlmDNcUkF1gpNWUla4fWZbbaYQz A93mLdrng+M=
+example.com.            1076    IN      DNSKEY  257 3 8 AwEAAbOFAxl+Lkt0UMglZizKEC1AxUu8zlj65KYatR5wBWMrh18TYzK/ ig6Y1t5YTWCO68bynorpNu9fqNFALX7bVl9/gybA0v0EhF+dgXmoUfRX 7ksMGgBvtfa2/Y9a3klXNLqkTszIQ4PEMVCjtryl19Be9/PkFeC9ITjg MRQsQhmB39eyMYnal+f3bUxKk4fq7cuEU0dbRpue4H/N6jPucXWOwiMA kTJhghqgy+o9FfIp+tR/emKao94/wpVXDcPf5B18j7xz2SvTTxiuqCzC MtsxnikZHcoh1j4g+Y1B8zIMIvrEM+pZGhh/Yuf4RwCBgaYCi9hpiMWV vS4WBzx0/lU=
+example.com.            1076    IN      RRSIG   DNSKEY 8 2 3600 20210909083317 20210819162603 31406 example.com. PQf0v25B4Y9bTEViRrGSm09/6jeiaF0rn5nQwA8XwggK8liNYXhz0P8m WD+SrvvkDXmnRC1Ef/VHqwz7mNcoJA2OAnMstoyi8l2nj2z5mBUtOt1O btbC1lENSBpNxb/1Va0KznjrXgODleD1UrVYGAThNExY6Sa2T32NfUiQ wSp7XZwY2uDb1SUeMdaQ+FwM8NKwEHKp8j+qM4jr8MFY2kgKDKH6aYxz Ym2WdNmZO9RhZ+sNZSjP0mNyB4JlK9XzdpU10EBuDjRe56gIApjIKqmn zvxgGzy/pMAeq2Fy6+xgo8qBGBDwNjbsJjoKweYf0YK2Ej6ztMjCJHes riGnug==
+example.com.            1076    IN      RRSIG   DNSKEY 8 2 3600 20210909083317 20210819162603 45620 example.com. lwjyOQfmvG0cj3BMAn/nzXwqRxbMIt1xeofF+Iti1sHCULiQonIS7f7U F7FfYK4QQp+9zwpCMLNbmOL8MTSRsEDxh9rwabAlZkkTURC3jq7Olem/ 4C9eDZtDoChkzfUEWmZsX4XpQ1sdg1A4a0V6/zIL1OO58mWyXcs5mIHv HSfgAtx/WEHzSBlPOoGhJQGaQq5lFqoOqwqjHHwtYvyPqEy0qe2Njc07 S0bap8Pqaelraf5TqOuo1A5SjXuGDOgw6GR81JKIf5tR8lR4ISZ54MVM QgCggRPOIjg2cG5CGwq7507Jt5Sa5ddf8kaYjcyN/ty4dwO3buclWs3h mbIyBg==
+
+[TEST_BEGIN] name: verify nxdomain
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 52196
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+;; QUESTION SECTION:
+;blog.example.com.              IN      A
+
+;; AUTHORITY SECTION:
+example.com.            3600    IN      SOA     ns.icann.org. noc.dns.icann.org. 2021072012 7200 3600 1209600 3600
+example.com.            3600    IN      RRSIG   SOA 8 2 3600 20210826145054 20210805042559 21664 example.com. KDST+50+SII2aG3XxjMwzxAXQ4+FbNwXWfuJ+NIxb1Egh2Z3U6XfpL5v bieTTmOU7fq9nEANRbhff2GvS6byEFg8GcLwspaQRLJR68s7UjFGqk1f 8eVH1OOQ43+sg2S5/u33N7z2/Kr1fx/hr8QR61NA8kSxrsouqvP/DcWS R3o=
+example.com.            3600    IN      NSEC    www.example.com. A NS SOA MX TXT AAAA RRSIG NSEC DNSKEY
+example.com.            3600    IN      RRSIG   NSEC 8 2 3600 20210826152150 20210805042559 21664 example.com. 022GOnm7vHzpvZkJx2ZiwcgP2R11I9pCTHPtbnloYHi3uH6vVIXrVVQy ClDoFizUmxWPZGNjgOSdz4jODcE4lEpYVypn6XyMp2PoAQPnm0MFtH3J 8X1vWmAZnRS8xCyq2LR37j23dDLDvf2Pqrw8LKL6AlMu/Q1GrC++Ikrn 734=
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+[TEST_BEGIN] name: verify nodata
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 38761
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+;; QUESTION SECTION:
+;example.com.                   IN      TLSA
+
+;; AUTHORITY SECTION:
+example.com.            3600    IN      SOA     ns.icann.org. noc.dns.icann.org. 2021072012 7200 3600 1209600 3600
+example.com.            3600    IN      RRSIG   SOA 8 2 3600 20210826145054 20210805042559 21664 example.com. KDST+50+SII2aG3XxjMwzxAXQ4+FbNwXWfuJ+NIxb1Egh2Z3U6XfpL5v bieTTmOU7fq9nEANRbhff2GvS6byEFg8GcLwspaQRLJR68s7UjFGqk1f 8eVH1OOQ43+sg2S5/u33N7z2/Kr1fx/hr8QR61NA8kSxrsouqvP/DcWS R3o=
+example.com.            3600    IN      NSEC    www.example.com. A NS SOA MX TXT AAAA RRSIG NSEC DNSKEY
+example.com.            3600    IN      RRSIG   NSEC 8 2 3600 20210826152150 20210805042559 21664 example.com. 022GOnm7vHzpvZkJx2ZiwcgP2R11I9pCTHPtbnloYHi3uH6vVIXrVVQy ClDoFizUmxWPZGNjgOSdz4jODcE4lEpYVypn6XyMp2PoAQPnm0MFtH3J 8X1vWmAZnRS8xCyq2LR37j23dDLDvf2Pqrw8LKL6AlMu/Q1GrC++Ikrn 734=
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+[TEST_BEGIN] name: verify & sanitize answer
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49139
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;example.com.                   IN      TXT
+
+;; ANSWER SECTION:
+example.com.            86400   IN      TXT     "v=spf1 -all"
+example.com.            86400   IN      TXT     "8j5nfqld20zpcyr8xjw0ydcfq9rk8hgm"
+example.com.            86400   IN      RRSIG   TXT 8 2 86400 20210825180653 20210804222559 21664 example.com. IEwx+IIGHHBJuugE6l20SSupXfhalYqvF7LflxLK4BNCKnIvr26yIk5o CPT8In/POWu+JZEcmoTrPykq+bVCSWq7LfISlNQSmlFMvi+SiAa2lLU5 rib1+FP86y9F8AzPshCgSg9rtN39xAOtdpobfaE4TkAP/PUvhNWLVw0J Qjk=
+example.org.            7197    IN      A       93.184.216.34
+[RESULT] secure: 1, bogus: 0
+[VERIFY_MESSAGE]
+;; ANSWER SECTION:
+example.com.            86400   IN      TXT     "v=spf1 -all"
+example.com.            86400   IN      TXT     "8j5nfqld20zpcyr8xjw0ydcfq9rk8hgm"
+example.com.            86400   IN      RRSIG   TXT 8 2 86400 20210825180653 20210804222559 21664 example.com. IEwx+IIGHHBJuugE6l20SSupXfhalYqvF7LflxLK4BNCKnIvr26yIk5o CPT8In/POWu+JZEcmoTrPykq+bVCSWq7LfISlNQSmlFMvi+SiAa2lLU5 rib1+FP86y9F8AzPshCgSg9rtN39xAOtdpobfaE4TkAP/PUvhNWLVw0J Qjk=
+[TEST_END]
+
+[TEST_BEGIN] name: invalid nodata proof type exists in bitmap
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49139
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;example.com.                   IN      TXT
+
+;; AUTHORITY SECTION:
+example.com.            86400   IN      NS      ns1.example.org.
+example.com.            3600    IN      NSEC    www.example.com. A NS SOA MX TXT AAAA RRSIG NSEC DNSKEY
+example.com.            3600    IN      RRSIG   NSEC 8 2 3600 20210826152150 20210805042559 21664 example.com. 022GOnm7vHzpvZkJx2ZiwcgP2R11I9pCTHPtbnloYHi3uH6vVIXrVVQy ClDoFizUmxWPZGNjgOSdz4jODcE4lEpYVypn6XyMp2PoAQPnm0MFtH3J 8X1vWmAZnRS8xCyq2LR37j23dDLDvf2Pqrw8LKL6AlMu/Q1GrC++Ikrn 734=
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+
+[TEST_BEGIN] name: self delegation
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49139
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;example.com.                   IN      TLSA
+
+;; AUTHORITY SECTION:
+example.com.            86400   IN      NS      ns1.example.org.
+example.com.            3600    IN      NSEC    www.example.com. A NS SOA MX TXT AAAA RRSIG NSEC DNSKEY
+example.com.            3600    IN      RRSIG   NSEC 8 2 3600 20210826152150 20210805042559 21664 example.com. 022GOnm7vHzpvZkJx2ZiwcgP2R11I9pCTHPtbnloYHi3uH6vVIXrVVQy ClDoFizUmxWPZGNjgOSdz4jODcE4lEpYVypn6XyMp2PoAQPnm0MFtH3J 8X1vWmAZnRS8xCyq2LR37j23dDLDvf2Pqrw8LKL6AlMu/Q1GrC++Ikrn 734=
+[RESULT] secure: 1, bogus: 0
+[VERIFY_MESSAGE]
+; the bad NS record must be removed otherwise the proof is good
+;; AUTHORITY SECTION:
+example.com.            3600    IN      NSEC    www.example.com. A NS SOA MX TXT AAAA RRSIG NSEC DNSKEY
+example.com.            3600    IN      RRSIG   NSEC 8 2 3600 20210826152150 20210805042559 21664 example.com. 022GOnm7vHzpvZkJx2ZiwcgP2R11I9pCTHPtbnloYHi3uH6vVIXrVVQy ClDoFizUmxWPZGNjgOSdz4jODcE4lEpYVypn6XyMp2PoAQPnm0MFtH3J 8X1vWmAZnRS8xCyq2LR37j23dDLDvf2Pqrw8LKL6AlMu/Q1GrC++Ikrn 734=
+[TEST_END]
+

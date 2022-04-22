@@ -1,0 +1,116 @@
+[ZONE] origin: cloudflare.com., time: 20210824000000
+[TRUST_ANCHORS]
+cloudflare.com.         80167   IN      DS      2371 13 2 32996839A6D808AFE3EB4A795A0E6A7A39A76FC52FF228B22B76F6D6 3826F2B9
+
+[DNSKEYS]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 27557
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cloudflare.com.                        IN      DNSKEY
+
+;; ANSWER SECTION:
+cloudflare.com.         1099    IN      DNSKEY  256 3 13 oJMRESz5E4gYzS/q6XDrvU1qMPYIjCWzJaOau8XNEZeqCYKD5ar0IRd8 KqXXFJkqmVfRvMGPmM1x8fGAa2XhSA==
+cloudflare.com.         1099    IN      DNSKEY  257 3 13 mdsswUyr3DPW132mOi8V9xESWE8jTo0dxCjjnopKl+GqJxpVXckHAeF+ KkxLbxILfDLUT0rAK9iUzy1L53eKGQ==
+cloudflare.com.         1099    IN      RRSIG   DNSKEY 13 2 3600 20210911041030 20210713041030 2371 cloudflare.com. VC6Zb7vRKcjpkGHqJZ0Sn+gjbf1GXNhrCbcZCZl7+A0Ib9KdCWSXI2Hw m2L4XAAEjEp0tEk+nJzaQiIPCYm/fQ==
+
+
+[TEST_BEGIN] name: valid nodata proof with online signing
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26693
+;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cloudflare.com.                        IN      TLSA
+
+;; AUTHORITY SECTION:
+cloudflare.com.         300     IN      SOA     ns3.cloudflare.com. dns.cloudflare.com. 2038144483 10000 2400 604800 300
+cloudflare.com.         300     IN      NSEC    \000.cloudflare.com. A NS SOA HINFO MX TXT AAAA LOC SRV NAPTR CERT SSHFP RRSIG NSEC DNSKEY SMIMEA HIP CDS CDNSKEY OPENPGPKEY TYPE64 TYPE65 SPF URI CAA
+cloudflare.com.         300     IN      RRSIG   SOA 13 2 300 20210825093916 20210823073916 34505 cloudflare.com. nL1Q/9zB2N7mpaktW91nZYJrdQ2Fg+R+ki7G47DyLip66mf3t7BGVKlW IUjXwIRX9SW2Z0B0w6NyJAVoWYHZOQ==
+cloudflare.com.         300     IN      RRSIG   NSEC 13 2 300 20210825093916 20210823073916 34505 cloudflare.com. ug4JG+94Klq+9RVoAdGNDAzXFr+wh11Pgisa2jRcwLgPPQKiHb+E/x0f Ev5v9Y6Tt9NH3zs2Z1svy87CV1aX9A==
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: expired nodata proof
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35712
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cloudflare.com.                        IN      TLSA
+
+;; AUTHORITY SECTION:
+cloudflare.com.         300     IN      SOA     ns3.cloudflare.com. dns.cloudflare.com. 2038096097 10000 2400 604800 300
+cloudflare.com.         300     IN      RRSIG   SOA 13 2 300 20210821072939 20210819052939 34505 cloudflare.com. qOvF4ZmrxbyvqAUSvxToXbKFFohSDsufTyaVX8zqydO8iAwfIRzAUW5k cSSmXOSRFEjW4KiBNaKZui3nJcYKrQ==
+cloudflare.com.         300     IN      NSEC    \000.cloudflare.com. A NS SOA HINFO MX TXT AAAA LOC SRV NAPTR CERT SSHFP RRSIG NSEC DNSKEY SMIMEA HIP CDS CDNSKEY OPENPGPKEY TYPE64 TYPE65 SPF URI CAA
+cloudflare.com.         300     IN      RRSIG   NSEC 13 2 300 20210821072939 20210819052939 34505 cloudflare.com. fWGieKjUeWGxfNLDCMDg8R4WmxWi2cgwm4YPr41Vj530aDmWipk2ls1g ca71BHVg9HMeD4x6wtzeajjcCWQ+Xw==
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+
+[TEST_BEGIN] name: invalid rrsigs
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35712
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cloudflare.com.                        IN      TLSA
+
+;; AUTHORITY SECTION:
+cloudflare.com.         300     IN      NSEC    \000.cloudflare.com. A NS SOA HINFO MX TXT AAAA LOC SRV NAPTR CERT SSHFP RRSIG NSEC DNSKEY SMIMEA HIP CDS CDNSKEY OPENPGPKEY TYPE64 TYPE65 SPF URI CAA
+cloudflare.com.         300     IN      RRSIG   NSEC 12 2 300 20210821072939 20210819052939 34505 cloudflare.com. fWGieKjUeWGxfNLDCMDg8R4WmxWi2cgwm4YPr41Vj530aDmWipk2ls1g ca71BHVg9HMeD4x6wtzeajjcCWQ+Xw==
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+
+
+[TEST_BEGIN] name: answer doesn't match question
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35712
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cloudflare.com.                        IN      TLSA
+
+;; ANSWER SECTION:
+cloudflare.com.         281     IN      RRSIG   A 13 2 300 20210821074310 20210819054310 34505 cloudflare.com. qxSYQaAiBiAdbUOdjn1C6WveTg2W/0+yOV/3cVxoMlYGp0UKe4uqxhAU 4HyJqZ7ats2qLlFtlc29DnJcOfgh+g==
+cloudflare.com.         281     IN      A       104.16.133.229
+cloudflare.com.         281     IN      A       104.16.132.229
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+
+
+[TEST_BEGIN] name: sanitize answer
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35712
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cloudflare.com.                        IN      A
+
+;; ANSWER SECTION:
+cloudflare.com.         300     IN      RRSIG   A 13 2 300 20210825094047 20210823074047 34505 cloudflare.com. DKTDYwE1Zg8xCyc6tUVu6oCIw1a4BLan9mS+yiM7JssvpaFyZtoGSJQ/ GNS+F0GIO79lIyNeQ5y5gYKhPltxpw==
+cloudflare.com.         71      IN      A       104.16.132.229
+cloudflare.com.         71      IN      A       104.16.133.229
+blog.cloudflare.com.    300     IN      A       104.18.26.46
+blog.cloudflare.com.    300     IN      A       104.18.27.46
+blog.cloudflare.com.    300     IN      RRSIG   A 13 3 300 20210821074537 20210819054537 34505 blog.cloudflare.com. c8Bv9HG/n0VY7Upu9FE6b0yyUBwuChpxl65ASAV4hhLEQsjnf0nrlsYB mbX+SjVdjNAxMKlu7aUCxUKl3lOgOA==
+[RESULT] secure: 1, bogus: 0
+; blog.cloudflare.com. shouldn't be included otherwise its good
+[VERIFY_MESSAGE]
+;; ANSWER SECTION:
+cloudflare.com.         300     IN      RRSIG   A 13 2 300 20210825094047 20210823074047 34505 cloudflare.com. DKTDYwE1Zg8xCyc6tUVu6oCIw1a4BLan9mS+yiM7JssvpaFyZtoGSJQ/ GNS+F0GIO79lIyNeQ5y5gYKhPltxpw==
+cloudflare.com.         71      IN      A       104.16.132.229
+cloudflare.com.         71      IN      A       104.16.133.229
+[TEST_END]

@@ -1,0 +1,54 @@
+#ifndef _HSK_ERRORS_H
+#define _HSK_ERRORS_H
+
+// Generic
+#define HSK_SUCCESS 0
+#define HSK_EOK 0
+#define HSK_ENOMEM 1
+#define HSK_ETIMEOUT 2
+#define HSK_EFAILURE 3
+#define HSK_EBADARGS 4
+#define HSK_EENCODING 5
+
+// Proofs
+#define HSK_EPROOFOK 0
+#define HSK_EHASHMISMATCH 6
+#define HSK_ESAMEKEY 7
+#define HSK_ESAMEPATH 8
+#define HSK_ENEGDEPTH 9
+#define HSK_EPATHMISMATCH 10
+#define HSK_ETOODEEP 11
+#define HSK_EUNKNOWNERROR 12
+#define HSK_EMALFORMEDNODE 13
+#define HSK_EINVALIDNODE 14
+#define HSK_EEARLYEND 15
+#define HSK_ENORESULT 16
+#define HSK_EUNEXPECTEDNODE 17
+#define HSK_ERECORDMISMATCH 18
+
+// POW
+#define HSK_ENEGTARGET 19
+#define HSK_EHIGHHASH 20
+
+// Chain
+#define HSK_ETIMETOONEW 21
+#define HSK_EDUPLICATE 22
+#define HSK_EDUPLICATEORPHAN 23
+#define HSK_ETIMETOOOLD 24
+#define HSK_EBADDIFFBITS 25
+#define HSK_EORPHAN 26
+
+// Brontide
+#define HSK_EACTONE 27
+#define HSK_EACTTWO 28
+#define HSK_EACTTHREE 29
+#define HSK_EBADSIZE 30
+#define HSK_EBADTAG 31
+
+// Max
+#define HSK_MAXERROR 32
+
+const char *
+hsk_strerror(int code);
+
+#endif

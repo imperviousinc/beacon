@@ -1,0 +1,224 @@
+[ZONE] origin: ., time: 20210823000000
+[TRUST_ANCHORS]
+.                       10800   IN      DS      35215 13 2 7C50EA94A63AEECB65B510D1EAC1846C973A89D4AB292287D5A4D715 136B57A3
+
+[DNSKEYS]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 5107
+;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;.                              IN      DNSKEY
+
+;; ANSWER SECTION:
+.                       10800   IN      DNSKEY  257 3 13 T9cURJ2M/Mz9q6UsZNY+Ospyvj+Uv+tgrrWkLtPQwgU/Xu5Yk0l02Sn5 ua2xAQfEYIzRO6v5iA+BejMeEwNP4Q==
+.                       10800   IN      DNSKEY  256 3 13 I5nPs6clFa1gnwn9IpVDGdJLfEONzgD1NcfuEwEIVuIoHdZGgvVblsLN bRO+spW3nQYHg92svhy1HOjTiFBIsQ==
+.                       10800   IN      RRSIG   DNSKEY 13 0 10800 20210903071710 20210806071710 35215 . di4uA/VccVv3H6syAt8aoqk2qjfAsvmKR4fyNqe+mrfkOSuXfc6kauqZ K/37ikNjWNUcm/MMzO4n7IlWxdlFfA==
+
+[TEST_BEGIN] name: verify referral
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60811
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 3
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;omnitude.                      IN      DNSKEY
+
+;; AUTHORITY SECTION:
+omnitude.               21600   IN      NS      _5l6tm80._synth.
+omnitude.               21600   IN      NS      _400hjs000l2gol000fvvsc9cpg._synth.
+omnitude.               21600   IN      DS      26614 8 2 A20BC6F9ADA0883326A05374D0D0C0E6290CEF580D00B9B957703014 41733B7F
+omnitude.               10800   IN      RRSIG   DS 13 1 21600 20210903072110 20210806072110 60944 . smOZAe0yrZakzqaxIKN27WDTGXb2ld4BfYPbR+0TIQo4GSrnIxuQ5cOa fLp5DModWvSNtRoVj189g8H4pfk4yQ==
+
+;; ADDITIONAL SECTION:
+_5l6tm80._synth.        21600   IN      A       45.77.219.32
+_400hjs000l2gol000fvvsc9cpg._synth. 21600 IN AAAA 2001:19f0:5:450c:5400:3ff:fe31:2ccc
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[ZONE] origin: omnitude.
+[TRUST_ANCHORS]
+omnitude.               21600   IN      DS      26614 8 2 A20BC6F9ADA0883326A05374D0D0C0E6290CEF580D00B9B957703014 41733B7F
+
+[DNSKEYS]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25408
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;omnitude.                      IN      DNSKEY
+
+;; ANSWER SECTION:
+omnitude.               299     IN      DNSKEY  256 3 8 AwEAAdzaxiS3FYhvytBxmOBTUy9SL8LEyoTKvaPI7RjJ1jxM2jjd1ncJ +ZQ4BGvrId8ptfqprxTpw6C+s0O9qZ2DBsHo2lubYI3EQkMfOOVLN5my HUjFSUjb9u1+Vs5BJ6bFtUvbR9GMiy9Go4x59gx6MgM+iIICMxJx42vW X7+fBXUJDhTEhKelP/LPCJoPO1jPsX/8YFU7Y+9rjNpIfLb775F9iCW7 hGn8Vjk05x4moQWctG9pQWXWk58pVXQfwoLv31E1kE4sW2MM9iroVPu8 Ey9+NRjdWDPrqcvS6eW+oBfe7KgzhoBqhqbYya/Xfc8duSUZ21OsMZke dweffXR/T1k=
+omnitude.               299     IN      DNSKEY  257 3 8 AwEAAbBGvxY7WeAzD/4PVb7ZAIVRCv/gdHlKNDw4rpBfk1ed0hXKpXcX S4Es6QhgaZ9cvWT5YjS+BFSL1pkTM/DU3GQP55T1FHKQQTk9o++1A1Z2 iUzijIRy/1rjqD7jLmw5L2ZfoCIBxFhmyyOJ26oVfbZlwyrBTueVkmiv U6PGf1c61vP/XE3hq7xP5BumabvsUTl5US/fqcFTatpcjQIX868k5c+E jHpE6zts5s1XF+l0r2UMjZJbG1GQKGSPfBNU9hR5UjxoSs9zxgThqDBn WpHNBQxn/K5f8cVXq93UgG//gwL3DRoewdx/CckqMkQ87btAprEHYCqu boEzwTaKuLcJzEmpEhxIm3C2o/BId3ITqpRgQckOeGMxa6C87EsO0LdF Mh0kTugMfwsvgTZLNzz7uuE52a9pP1tipL2YkC8wApQ33egd6j/EXK6G tNV9vmADdYqEeXPtLHsuDHCl4oCOOkDd2ykzrXnF0k84yqbRIVOEWfMv F2/6UIqtesjJL3E577QXIUvkGOLi+FLt5KUfRDSbN8pJjBilbiH6eDBB hhN4FnJMQsjiAPmlXlk+jrqEgICZi22yaJijIiUPMluHEfnOFHOC+QeG l1QPuF1h70YbiVl/f3ukV7ovxtg+qj/2bqMUPhOJ60+s6bIx0RHvt6GF x+3DUtAZmXyt8py3
+omnitude.               299     IN      RRSIG   DNSKEY 8 1 300 20220801000000 20210730150002 26614 omnitude. bEnEn2sB/0KPfvoibG+qIlu3dOFqj0/+obaD/kzh6yiP3jHpwnktmEid 7G2K2zHNhL8KMwwJJBr5dW2fMTwt20qOvLdzP634zu1h1UiFi6h4Nln2 l1qRv4WYV8EvFl4SA+NTzDPyCHORt6CGIjTwTiMBKxX5fAX/FuVFOfyg eyGIpwZPhYHZSB35v7lpe9ifTcHEX8vYd4doHP/Q8KQ2D3hfPQIiZz4m Nd0n7co4pGRKlL6u68J+be7Z0ijtfmjk9+oVnwOuVwEdHztyPtxFOGQW kij+VVi0/fsIgHrZ2VwJ2lC3Iu1JMHK9nChl80WqfoM4ios8kZodXIKh QynFs93dp13zgVjDN52SxtDrfkxMyjpaGNmjbZ5a5Ykfqgb4xzHfyzyx WA6jPIYxTUPrWJPYcTMSExMk+1gBOYhljaBXF3FjfURyKIiLcvQGux57 gMv1+HewcJ67oX10K7O4bTwa4UVf+vTb8TmT/tS2Q/aBpFsOg2Q52plp QAs5NgGaR9cNgagA4MMyrdytmV2hlZ6qP4/8G9mcMDNZWMVHMQXvBRhM J9EoyVFzz+h0neGYQSjvVHYYXJdvAptX39vbXbv4DC4yHeC3QDUvtfv0 tFf+XQLy5FwGUIgmPImtQKJdSyB6SpT7dLU8YZnae12o8Sr548YBhV6v LrslSRitNio=
+
+
+[TEST_BEGIN] name: verify answer
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34114
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;omnitude.                      IN      A
+
+;; ANSWER SECTION:
+omnitude.               300     IN      A       45.77.219.32
+omnitude.               300     IN      RRSIG   A 8 1 300 20220801000000 20210730150002 53619 omnitude. XEf2n745MG93mpIYa1LvXIAIMmXUDdppiIWDUxnF8vK7V1xD07GduO0w ii2ATE7ltuGcjXNyT6r4snGXDuQWZKJz+j9K5pLM0hiIJIMM7CdOb5pJ ZCjfRqiZb7Fl7TVLry3y1zINJ/VcNJYXgQiCOvwYkC7HmCBLg1F0jZjx PKI+iKYhyq+d/XF3R8Vgt5X1jEh5KuwcPZyiDT2JceaEWoXeY5F6OQso gwYrdXUYJVwzAlBs28bC9GEi5f3z45EaErPyomlJOMtth+Q9JnEPgOO9 wsZ3RrM/dybz5s0OeF2njPxKMGFukjuIC2ReTbfL3oqiVe7RdlQNkRfV LARdrQ==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: downgrade nsec3
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7516
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;omnitude.                      IN      TLSA
+
+;; AUTHORITY SECTION:
+omnitude.               300     IN      SOA     omnitude. admin.omnitude. 2021020910 3600 1800 604800 3600
+omnitude.               300     IN      RRSIG   SOA 8 1 300 20220801000000 20210730150002 53619 omnitude. KEPg/qbZdHaEaJqdDyKwMkmXxCCpJj0WRlvnV7prHTVJ47meCEc2C8Qu Tpiut8q9V/tGtokT+zYEiEl0mqhd2DeIWQMKNwifk+zHw//31TnOe3Tl VM4Kp9GKE/8xczvOaTAxx6p/Fsu8WBkf6jbQ025rh1BCdYWukIQT6mKz 1zIluwqfmfZuz1V5FaIu6w4REMv+7F6OBbYgO8HhMgOpbgd6/368abU3 hin+Af7BCfe1oTnWvrWoLnEfwjpJDJqhJ81KBhSsOu8RHLgqPOb2M5mc g1JhQ5Jp3JQMfhifc2ssj3upqlxSdnRg8IY4WLN8k2PC9+5onsai28Ff UAJl+g==
+7o2vmqoh0fpu4vuhe481p915l94m9iq4.omnitude. 3600 IN NSEC3 1 0 1 3C628D8438ED4024 9344CILQB9599PT01FB97JTEKIQOVJ9R A NS SOA AAAA RRSIG DNSKEY NSEC3PARAM
+7o2vmqoh0fpu4vuhe481p915l94m9iq4.omnitude. 3600 IN RRSIG NSEC3 8 2 3600 20220801000000 20210730150002 53619 omnitude. wpdmBm9Mt11YUz4kv3mCfLk3bW9/JqFCj0f74xfaCRZCWnYRxw/NaQTm A/VSSl1uMEsogxBXcxJrO9b9OXbv8KfmjPow5oVsZc9vm8WWK3riGpzy 26fQhdaevZoemWGRY1U8p2OvF5Ki+7DgwzmFf1Q+XIfjm6bdG5DwQhI2 ulin1TwpGKg+0PUceviiD4ADWTwH5Y+op/wzozvqw6L37+5CH4/5QUNz 8IzAziT8nPSCSHW+Jx0BdNW3bBFF5KNyfiCif+B4cOMqI8DXmw9YcXxh Pk9lMQ/5B9y9Am5e4y7BeLmBghDwNvDUXU9ilrMCy9unEIBWs/2NDAxY sTCvvg==
+
+[RESULT] secure: 0, bogus: 0
+[TEST_END]
+
+
+[ZONE] origin: proofofconcept., time: 20210823000000
+[TRUST_ANCHORS]
+proofofconcept.         21551   IN      DS      17552 8 2 BBBE70AF5CD965360442CBEF40E3299344AF493D339592B93DAA29F7 839C1D58
+
+[DNSKEYS]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 59719
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;proofofconcept.                        IN      DNSKEY
+
+;; ANSWER SECTION:
+proofofconcept.         86398   IN      DNSKEY  256 3 8 AwEAAbvBTKZrkStI4JnYDKPUiAM0i1ZCebo0y/dGGviZDxyJdeA6sfaR camxoq6emggevLyD32YBURhdxT+DjBWMyYfLf80vqytXLqZFPbdLRSK7 csqPaaIFuQbvRFBECPU40NvRqVxq8AMb5NenlyFHUCq7hSUIJm9sisQ2 9f4QuvDeyv787StrjRsohLzWwzjJmWCsa1oafT3RUDL09PEc1EZ/OZMN UBg2k0I+/S83rYlqHhv4qoQnmnXLsZy8wGxM74ABjySW5gba+zSUMzY5 AoRMfXP/S6CXNx0zHBC5uF+8CHijoZ0gOKPXYhBmSYKFYov7qatq3KGH zfGYXArnoJs=
+proofofconcept.         86398   IN      DNSKEY  257 3 8 AwEAAbCsgdJOX7TxLidghkJEP17JM/F5kPrbpwozl5/Onp95vgx33bRO px8lhtIRevLBYpaG8rPiLjpvAnwdrkdLP+Mz72gly6eO1INwhoEzMcPl CS6IfRk8BOBVcA2mv+DhtMmIpGjZaoLZt9S0Rf9KfAJKWIA+aZ5vxU1C u9vyB3rnC5Ia7idCiBjVoa+6UXHUnkuuWGyMAp0L7fbelpPkEfdWkLHh IfruMTgbexrUyderee1+DEghDJHV9Eax4bcjEIcsM7qkbmjo1l1c7tS6 VZdZD7vWL8OhuWCa/xha2bDLa5bfc4jZtVs18qqRIPN1klQOfvSGBRkw IEGZNY8QXCE=
+proofofconcept.         86398   IN      RRSIG   DNSKEY 8 1 172800 20220225162619 20210224162619 17552 proofofconcept. ciJQmxWaTVD2KSh7CmDhFkS1aAOMXh/Rz7clilxGbP/TSZzX/mYArrcs 1CZyStB89DX1CgEKf05enHSadg3wHnUQg1CPJ2Au2GBTS7C4bMftjGH/ XTyXGAbEWJcA/5aI9dg7KBG0GSedx1fEH4YPPTEScnHzCpqQouv4LYGS cbZwIXKvPw0kAtRbsh+hopAELzQqh/NU/d6MUNimGUn+7D7Z8C6k3bN2 8p2AT5o1GqDVxYSS27v/bxy41rKMfxU4Aduq+NtjmV7XSUA73fpmf8Yz sDQDvCXuzK11AXxTRdGzyMfH/V7wClgtU4TG+GGfBViPt1E9BA+Xa1Br ecEBjg==
+proofofconcept.         86398   IN      RRSIG   DNSKEY 8 1 172800 20220225162619 20210224162619 58608 proofofconcept. AUS2qkXJpc0WeC9ctZz4Rts3dMXq7Z376TGvLcFLBbI3T65i4T3cp365 pKzbtRgpHCVWPhqXsFY9wdy0XPoEREhLMc6mNkt9G4UE44Lr3vTkptNx qBNtJiVwX51oFXxok8IIZU8GWFdPg6rUz4jr4TZEdJ5951KLEvpCRQcz r2UIckIxvl5RfEz3Y9EvBVsLwNVaOSzlozdekKWSQxR8ZvnsQZA9UypN io5OCSoeidWftOvroWmjTCPD5550bzGN+U8Ug84GCB3rIF83JbyNqsUd PA/H2lVMFaEOHEG/YLCYB9+A+EVtHqBkhWiaPVcwRXfylcPbaTykMgXy DXzkrQ==
+
+[TEST_BEGIN] name: verify answer
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 27762
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;proofofconcept.                        IN      A
+
+;; ANSWER SECTION:
+proofofconcept.         21600   IN      A       142.93.115.133
+proofofconcept.         86400   IN      RRSIG   A 8 1 21600 20220225162619 20210224162619 58608 proofofconcept. WDp91leX1YhEHkRmypxSg1yC8vGXHonCfXDLRTxePKDAXzvrbPs8rF6I jT1Db5G97+Deb9wJ9UARV73+0u+EePm/T/YQ4v907bCvdCVBSphmmWsi znDi/ZFoOmYVQPnmPyvT2A75PhUCwDW907U0c+NUcKCR1te/dmxrHOcm bKsYRj35Pc+wt2belMFqKArpqVtRh5v2sYUcbkBLJx57ng7JyHl1B+PH 0eTXfyRL41pmcsRUrYkvcqPyeNaT7GqCkWM2ADpC8JzXzCXIt4gMm6VG jhdfyTg1N9WaEJvFvn+JD7+U4oeas4athsbF9NkdBAY1lOIxSwiAEvsy uKMUaw==
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: broken nodata response missing nsec
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 16484
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 2, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;proofofconcept.                        IN      AAAA
+
+;; AUTHORITY SECTION:
+proofofconcept.         156     IN      SOA     ns.proofofconcept. email.proofofconcept. 1614270379 86400 7200 604800 300
+proofofconcept.         86256   IN      RRSIG   SOA 8 1 21600 20220225162619 20210224162619 58608 proofofconcept. KhkbxVkXJQUO8PxO9DvcG7clgS4lcMgKtOe2j/UnwBl3o47UC0KleMtN Vpu9Aa/pFPurh1qE1n6KHocnqyyUWje9OtvGs8bL22ybU7ookBJJqplW SBMnxRnDcNr3ygNsBPZZOYpVMpD9z/Kxz1cMLSntvCYXlJCrHA8HGp52 ZOwoZk1ed4lzr87uSvnmnhUa180OnQcSfAUtkUToVo0bleDL8CscNhPy LqV12CBOF4IjYRln3LQZzV4T8wOkv6xNHQAUClijQ/x+ny9aZF+Suspc Ulrg2WA7Wys8war7DanZnhbgxGoVK5rmfNgftXlk/sqpFOvczviWWkc2 NTLVUw==
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+
+
+[TEST_BEGIN] name: verify answer subdomains
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 16378
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;_443._tcp.proofofconcept.      IN      TLSA
+
+;; ANSWER SECTION:
+_443._tcp.proofofconcept. 3600  IN      TLSA    3 1 1 22E3C95A736E370FA38E7D94239F49C7A9EF961AF94E05AE8CC74FC3 CA2BA5CE
+_443._tcp.proofofconcept. 86400 IN      RRSIG   TLSA 8 3 3600 20220225162619 20210224162619 58608 proofofconcept. gCIZIIm6KkUDDee4kqmuEjZ9hhTUPgoORUKwgTrzlIVV0p+4B83duHWV S/amZfpNwM0vWJ25If9UstG/q6QI1PrbJuSoonKl9eXaAihbZ1csfV4Q 7hC2JyrlarAsv7VjvnQwc31DYxywwOCfLuV5aeo1CFLrtsOGgnG6eJXp MXb79351FqBS2xVUvNyZfMLFcVq5xgAenH3JP5KwuOsBgNw+1mtLBg8N DQVQaIlPz/9/l9wrDqhuzhciOhFkHHZcq/cD/W1xsEgTJow3WdaIbAs1 FTy7CwowPeiYLD9RCnTYMv66cdCEvqKUgIHa2ib9k9d0D8zmoQNhIxHJ H9fSDQ==
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+
+[ZONE] origin: letsdane., time: 20210824000000
+[TRUST_ANCHORS]
+letsdane.               21591   IN      DS      28057 15 2 BFF60097255A21E8054EB53D74481B4AA6E51C1B85F8BCE97A6CF5AE C91ECBB0
+
+[DNSKEYS]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6266
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;letsdane.                      IN      DNSKEY
+
+;; ANSWER SECTION:
+letsdane.               3565    IN      DNSKEY  256 3 15 sHSzJPaSZ/KzG+tArxLITJxZgv1bqwVcUA6/kr+hPsM=
+letsdane.               3565    IN      DNSKEY  257 3 15 FeDD+6E44LAYo8sJtpzfbyLOkCMKePxArIEK0OxkNqk=
+letsdane.               3565    IN      RRSIG   DNSKEY 15 1 3600 20210828070441 20210820040441 28057 letsdane. 0fbi69t237RgF0HAD2LwHkdh+AQJ3bCRkn23mrXluZn0M7vEs11TDJIr ahnuBYWZ4gQvyRB+pmReHgQlXE0wBA==
+
+
+[TEST_BEGIN] name: verify answer ed25519
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 37808
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;letsdane.                      IN      A
+
+;; ANSWER SECTION:
+letsdane.               230     IN      A       157.230.75.71
+letsdane.               230     IN      RRSIG   A 15 1 3600 20210828070441 20210820040441 27214 letsdane. x/XLBa5Yg4L13mqIUGL/r3LeQhXb5zJMW8c7ipVkuef2EuKt3YFDXlRV 6gp02ekW0uvmaUYHqfS5FI1fTdtlAQ==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+[TEST_BEGIN] name: nodata response ed25519/black lies
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 36979
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 4096
+;; QUESTION SECTION:
+;a.letsdane.                    IN      A
+
+;; AUTHORITY SECTION:
+letsDAne.               162     IN      SOA     ns1.buffrr.dev. contact.buffrr.dev. 2 10000 2400 604800 300
+letsdanE.               162     IN      RRSIG   SOA 15 1 3600 20210828070441 20210820040441 27214 letsdane. z3LDh+xRAdQnM5s2ZLUUZ7uYTSO9MhtvbwGbIwhW7EeRaSGOV+YW8JP+ JsVd0dsQEGZS2tplAKpzfuQ+suy1BQ==
+a.letsdane.             300     IN      NSEC    \000.a.letsdane. HINFO TXT AAAA LOC SRV CERT SSHFP RRSIG NSEC TLSA HIP OPENPGPKEY SPF
+a.letsdane.             300     IN      RRSIG   NSEC 15 2 3600 20210828070659 20210820040659 27214 letsdane. Qy3X9rIL8oeUh0JurSyc22EsQKGagBAh3+DidzgPplUprV2chDo3s8r5 ec0jA32gMVXpt6NqkJ4RQpomRq4jAA==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]

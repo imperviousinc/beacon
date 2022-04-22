@@ -1,0 +1,266 @@
+[ZONE] origin: ns.forever., time: 20210823000000
+[TRUST_ANCHORS]
+ns.forever.	300	IN	DS	21761 13 2 3B606B0AFF27AD10E5E8903D5BF3CD36F7ABCA44D1BA6F9C59099372936A9845
+
+[DNSKEYS]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 10258
+;; flags: qr aa rd; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;ns.forever.                    IN      DNSKEY
+
+;; ANSWER SECTION:
+ns.forever.             300     IN      DNSKEY  256 3 13 6PEpjcur7mZVVivbBuxiWxVkdmTeOqdTYNu6u7QGRSSV+/Fpit0lLfuc Tm0PVaG60K6YjO3cRQENP8yWYjrGQg==
+ns.forever.             300     IN      DNSKEY  257 3 13 P8zBKmseFGP/5hv2V1l6X0COy/GSKW/c/ExWbU90GODLVsdytNtv40C7 7zgGPlgH0WlDOvEuoRdBVIBB9NB2PA==
+ns.forever.             300     IN      RRSIG   DNSKEY 13 2 300 20210830204245 20210816191245 21761 ns.forever. ys8h+zF2JL+e0SJJYIxEari1ojRygQXUieIscjHfLsEYL65S8comQ1mb dpTaVYQzP9gAnCTaXWugQwPSRZBdVw==
+
+
+[TEST_BEGIN] name: verify nxdomain
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 40620
+;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 6, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;doesntexist.ns.forever.                IN      A
+;; AUTHORITY SECTION:
+delegate-secure.ns.forever. 300 IN      NSEC    *.wild.ns.forever. NS DS RRSIG NSEC
+ns.forever.             300     IN      NSEC    _443._tcp.ns.forever. A NS SOA RRSIG NSEC DNSKEY CDS CDNSKEY
+delegate-secure.ns.forever. 300 IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. JC6x2z2WutUOIiBPAze4O4WRVcwBG+qi2077mWf0H4aIBKaoLRf6KmqY uqw/BjNgXJnjysWjYrhdu0IO+Gbniw==
+ns.forever.             300     IN      RRSIG   NSEC 13 2 300 20210830204245 20210816191245 45607 ns.forever. /JqBC1fWWusc6k+SwOGBmcdwJ8JK0eG3xfoRWfMT2ZfO6FwYwW4KRDs3 LEbfEvwFcjuTnQSrDb0rBpJzJdsMtA==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+[TEST_BEGIN] name: verify nodata
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 51881
+;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 4, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;ns.forever.                    IN      TXT
+
+;; AUTHORITY SECTION:
+ns.forever.             300     IN      NSEC    _443._tcp.ns.forever. A NS SOA RRSIG NSEC DNSKEY CDS CDNSKEY
+ns.forever.             300     IN      RRSIG   NSEC 13 2 300 20210830204245 20210816191245 45607 ns.forever. /JqBC1fWWusc6k+SwOGBmcdwJ8JK0eG3xfoRWfMT2ZfO6FwYwW4KRDs3 LEbfEvwFcjuTnQSrDb0rBpJzJdsMtA==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+[TEST_BEGIN] name: verify positive answer
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18805
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;ns.forever.                    IN      A
+
+;; ANSWER SECTION:
+ns.forever.             300     IN      A       147.182.253.76
+ns.forever.             300     IN      RRSIG   A 13 2 300 20210830204245 20210816191245 45607 ns.forever. zN7FXBmKAa5OKJtDo6mCftGe/K4v7C67h9qeHC1N6VNWvIU35ZXGJhUZ 8sISihEKm1WvhgpWlahxdOWH7rCnBA==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: sanitize signed rrs
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18805
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;ns.forever.                    IN      A
+
+;; ANSWER SECTION:
+ns.forever.             300     IN      A       147.182.253.76
+ns.forever.             300     IN      RRSIG   A 13 2 300 20210830204245 20210816191245 45607 ns.forever. zN7FXBmKAa5OKJtDo6mCftGe/K4v7C67h9qeHC1N6VNWvIU35ZXGJhUZ 8sISihEKm1WvhgpWlahxdOWH7rCnBA==
+ns.forever.             300     IN      DNSKEY  256 3 13 6PEpjcur7mZVVivbBuxiWxVkdmTeOqdTYNu6u7QGRSSV+/Fpit0lLfuc Tm0PVaG60K6YjO3cRQENP8yWYjrGQg==
+ns.forever.             300     IN      DNSKEY  257 3 13 P8zBKmseFGP/5hv2V1l6X0COy/GSKW/c/ExWbU90GODLVsdytNtv40C7 7zgGPlgH0WlDOvEuoRdBVIBB9NB2PA==
+ns.forever.             300     IN      RRSIG   DNSKEY 13 2 300 20210830204245 20210816191245 21761 ns.forever. ys8h+zF2JL+e0SJJYIxEari1ojRygQXUieIscjHfLsEYL65S8comQ1mb dpTaVYQzP9gAnCTaXWugQwPSRZBdVw==
+_443._tcp.ns.forever.   300     IN      TLSA    3 1 1 F990C4CF0DB6A00465785870DA95A9F696F983DD41147AC149BD72BD 5C10B07A
+_443._tcp.ns.forever.   300     IN      RRSIG   TLSA 13 4 300 20210907185720 20210824172720 45607 ns.forever. bOWtb7rEchu4Jc42cjeokG/OhX/QmQKDbI4/70P6ZNhGdHKE7x++7XTb NobpOecOeMh13NgIy+SSFsUxlbXj7A==
+[RESULT] secure: 1, bogus: 0
+[VERIFY_MESSAGE]
+;; ANSWER SECTION:
+ns.forever.             300     IN      A       147.182.253.76
+ns.forever.             300     IN      RRSIG   A 13 2 300 20210830204245 20210816191245 45607 ns.forever. zN7FXBmKAa5OKJtDo6mCftGe/K4v7C67h9qeHC1N6VNWvIU35ZXGJhUZ 8sISihEKm1WvhgpWlahxdOWH7rCnBA==
+[TEST_END]
+
+
+[TEST_BEGIN] name: positive answer with wildcards nsec exact match
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41877
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;example.wild.ns.forever.       IN      A
+
+;; ANSWER SECTION:
+example.wild.ns.forever. 300    IN      A       147.182.253.76
+example.wild.ns.forever. 300    IN      RRSIG   A 13 3 300 20210830204245 20210816191245 45607 ns.forever. Lb8ICn2XB3eFes2SW2p0rY7uNx/1TpYg70ulE0T9NeRtOEwMj1nqW79N EP14vob5fbNNY/wI+ZnAtvh7f06aeg==
+
+;; AUTHORITY SECTION:
+*.wild.ns.forever.      300     IN      NSEC    ns.forever. A RRSIG NSEC TLSA
+*.wild.ns.forever.      300     IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. h0FURI6vcAB4WD9uSjTml5H5EGkIOkJgpuNtu8CqXX/UbCfxD918Ky96 5DF+Pa8AUvnEOO/jgcl72vPq71CLnA==
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: positive answer with wildcards nsec doesn't match owner
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41658
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;!.wild.ns.forever.             IN      A
+
+;; ANSWER SECTION:
+!.wild.ns.forever.      300     IN      A       147.182.253.76
+!.wild.ns.forever.      300     IN      RRSIG   A 13 3 300 20210830204245 20210816191245 45607 ns.forever. Lb8ICn2XB3eFes2SW2p0rY7uNx/1TpYg70ulE0T9NeRtOEwMj1nqW79N EP14vob5fbNNY/wI+ZnAtvh7f06aeg==
+
+;; AUTHORITY SECTION:
+delegate-secure.ns.forever. 300 IN      NSEC    *.wild.ns.forever. NS DS RRSIG NSEC
+delegate-secure.ns.forever. 300 IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. JC6x2z2WutUOIiBPAze4O4WRVcwBG+qi2077mWf0H4aIBKaoLRf6KmqY uqw/BjNgXJnjysWjYrhdu0IO+Gbniw==
+
+[RESULT] secure: 1, bogus: 0
+[VERIFY_MESSAGE]
+; check that both answer and authority sections are present
+; nsec not matching owner name shouldn't be omitted
+;; ANSWER SECTION:
+!.wild.ns.forever.      300     IN      A       147.182.253.76
+!.wild.ns.forever.      300     IN      RRSIG   A 13 3 300 20210830204245 20210816191245 45607 ns.forever. Lb8ICn2XB3eFes2SW2p0rY7uNx/1TpYg70ulE0T9NeRtOEwMj1nqW79N EP14vob5fbNNY/wI+ZnAtvh7f06aeg==
+
+;; AUTHORITY SECTION:
+delegate-secure.ns.forever. 300 IN      NSEC    *.wild.ns.forever. NS DS RRSIG NSEC
+delegate-secure.ns.forever. 300 IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. JC6x2z2WutUOIiBPAze4O4WRVcwBG+qi2077mWf0H4aIBKaoLRf6KmqY uqw/BjNgXJnjysWjYrhdu0IO+Gbniw==
+[TEST_END]
+
+
+[TEST_BEGIN] name: nodata empty non-terminal
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46554
+;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 6, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;wild.ns.forever.               IN      A
+
+;; AUTHORITY SECTION:
+delegate-secure.ns.forever. 300 IN      NSEC    *.wild.ns.forever. NS DS RRSIG NSEC
+*.wild.ns.forever.      300     IN      NSEC    ns.forever. A RRSIG NSEC TLSA
+delegate-secure.ns.forever. 300 IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. JC6x2z2WutUOIiBPAze4O4WRVcwBG+qi2077mWf0H4aIBKaoLRf6KmqY uqw/BjNgXJnjysWjYrhdu0IO+Gbniw==
+*.wild.ns.forever.      300     IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. h0FURI6vcAB4WD9uSjTml5H5EGkIOkJgpuNtu8CqXX/UbCfxD918Ky96 5DF+Pa8AUvnEOO/jgcl72vPq71CLnA==
+
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: nodata but the type exists
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46554
+;; flags: qr aa rd; QUERY: 1, ANSWER: 0, AUTHORITY: 6, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;cool.ns.forever.               IN      A
+
+;; AUTHORITY SECTION:
+delegate-secure.ns.forever. 300 IN      NSEC    *.wild.ns.forever. NS DS RRSIG NSEC
+*.wild.ns.forever.      300     IN      NSEC    ns.forever. A RRSIG NSEC TLSA
+delegate-secure.ns.forever. 300 IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. JC6x2z2WutUOIiBPAze4O4WRVcwBG+qi2077mWf0H4aIBKaoLRf6KmqY uqw/BjNgXJnjysWjYrhdu0IO+Gbniw==
+*.wild.ns.forever.      300     IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. h0FURI6vcAB4WD9uSjTml5H5EGkIOkJgpuNtu8CqXX/UbCfxD918Ky96 5DF+Pa8AUvnEOO/jgcl72vPq71CLnA==
+
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+
+[TEST_BEGIN] name: verify insecure delegation
+[INPUT]
+; Test delegation proof
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53444
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 3, ADDITIONAL: 3
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;blog.ns.forever.               IN      A
+
+;; AUTHORITY SECTION:
+blog.ns.forever.        300     IN      NS      cool.ns.forever.
+blog.ns.forever.        300     IN      NSEC    cname.ns.forever. NS RRSIG NSEC
+blog.ns.forever.        300     IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. +LJ8aURGptiV0afOaeGHNa3VNzJyuIVFm2RGe3RaIwh9qbUeULyQr+Hp zUIzjh2wmcEWO3H9CD5WnQGW9JUBrA==
+
+;; ADDITIONAL SECTION:
+cool.ns.forever.        300     IN      A       127.0.0.1
+cool.ns.forever.        300     IN      RRSIG   A 13 3 300 20210830204245 20210816191245 45607 ns.forever. Aru7Sqm7aEX6I/uKwKF6MPnkZItbm9UdHYkVGNCpkOI484IC6l8QAWlg S8avbcbd3Q627VPccxrCB0+Sy8PZZw==[RESULT] secure: 1, bogus: 0
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+[TEST_BEGIN] name: verify insecure delegation qname child of owner
+[INPUT]
+; Test delegation proof
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53444
+;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 3, ADDITIONAL: 3
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;static.blog.ns.forever.               IN      A
+
+;; AUTHORITY SECTION:
+blog.ns.forever.        300     IN      NS      cool.ns.forever.
+blog.ns.forever.        300     IN      NSEC    cname.ns.forever. NS RRSIG NSEC
+blog.ns.forever.        300     IN      RRSIG   NSEC 13 3 300 20210830204245 20210816191245 45607 ns.forever. +LJ8aURGptiV0afOaeGHNa3VNzJyuIVFm2RGe3RaIwh9qbUeULyQr+Hp zUIzjh2wmcEWO3H9CD5WnQGW9JUBrA==
+
+;; ADDITIONAL SECTION:
+cool.ns.forever.        300     IN      A       127.0.0.1
+cool.ns.forever.        300     IN      RRSIG   A 13 3 300 20210830204245 20210816191245 45607 ns.forever. Aru7Sqm7aEX6I/uKwKF6MPnkZItbm9UdHYkVGNCpkOI484IC6l8QAWlg S8avbcbd3Q627VPccxrCB0+Sy8PZZw==[RESULT] secure: 1, bogus: 0
+[RESULT] secure: 1, bogus: 0
+[TEST_END]
+
+
+[TEST_BEGIN] name: bad wildcard substitution name exists, time: 20210824172721
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 37645
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;f.wild.ns.forever.             IN      TLSA
+
+;; ANSWER SECTION:
+f.wild.ns.forever.      300     IN      TLSA    3 1 1 F990C4CF0DB6A00465785870DA95A9F696F983DD41147AC149BD72BD 5C10B07A
+f.wild.ns.forever.      300     IN      RRSIG   TLSA 13 3 300 20210907185720 20210824172720 45607 ns.forever. ZdDptniYEFHymvbEmvbwUOvJ/g5LjG5MiUDDUYyZciKtE87YZRA1B4db cAaybCpqGPczKjlsderz9Mu1gQRSHQ==
+
+;; AUTHORITY SECTION:
+a.wild.ns.forever.      300     IN      NSEC    exists.wild.ns.forever. RRSIG NSEC TLSA
+a.wild.ns.forever.      300     IN      RRSIG   NSEC 13 4 300 20210907185720 20210824172720 45607 ns.forever. SHqlUqleahRO/Zh8jXnbgWZut+q9lAbEE0lYa7tCO2xQkqspkz2dgf+5 IZH0yhrwSChD8gHkXtoGHgWlREvhJA==
+
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
+

@@ -1,0 +1,31 @@
+[ZONE] origin: rhybar.cz., time: 20210823000000
+[TRUST_ANCHORS]
+rhybar.cz.              3600    IN      DS      61281 13 2 3651AA62843DEB5EDAA10F5055717F877E9F2657E701CAB10CF42B43 EA8E047E
+
+; ignore verification for dnskeys
+[DNSKEYS] verify: 0
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;rhybar.cz.                     IN      DNSKEY
+
+;; ANSWER SECTION:
+rhybar.cz.              600     IN      DNSKEY  256 3 5 AwEAAb/riVUjNfP1to3wkJyul0MjwiPojFgFmMiLj1KIKeVIYCIRNx01 Q1we5M17GQFInCXXyTyjCYJfwkL0Xe7ma6m2pHfEMkOiDl42rsgrmkSh xPEvZMd5vpT+RyQWQh26TJ42MRoCJSt6XNeFLXRyjfRcDt7ZxYD3bHNe yaDuUUGt
+rhybar.cz.              600     IN      DNSKEY  256 3 5 AwEAAcrTMVXwOcFCGKtXwdt4XATP43qU96IryyqiZ0oPtuHEEBCikuQD uJhRjNAV4DYvR6fb/suAnd91EVNgHHTXUlAWwmJRrqIwZ6VuGaZqVG+N Jh1Okif7CL8no2Z47j6I3HH3pyzrYH2oQVyr64O/8BV2jrk8RteeEqa7 V7gcrFfJ
+rhybar.cz.              600     IN      DNSKEY  257 3 5 AwEAAeKle4K3bxJb4k9sMhdm6BmpRK2rISAGh0egMSXgOlQnU+3TLQ0a H1th7ejZnn6Zdkeo8MRXDxLkgp1rUSsRM1Q2SmLJhaat7L15qHmj+vCk 5IuSIpAdaRsqOKxHlT6a/LWGwGvDIVxY6J9sXaJ4SInflZpa5wZUCrhD Kvpo0hAzNfoK/aFApzZGaAGALYx6YpbG+SBW2K+s92eyoJCCrQQ+Nata 41l7K6RFAYjP+g3Kp95McNm3xlBve171u9FUZNUuN2Rn25oEtHHlK9Nc HNqWvFJ3VmXcA6CkGrBPV6vOAwwUtPDSWSZbdolS69092ZWYTlOJw6g0 LVI2feMMrok=
+
+[TEST_BEGIN] name: nodata without rrsigs
+[INPUT]
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34338
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 2, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1232
+;; QUESTION SECTION:
+;rhybar.cz.                     IN      A
+
+;; AUTHORITY SECTION:
+rhybar.cz.              473     IN      SOA     a.ns.nic.cz. hostmaster.nic.cz. 2008091210 10800 3600 1209600 7200
+rhybar.cz.              7073    IN      NSEC    www.rhybar.cz. NS SOA RRSIG NSEC DNSKEY
+[RESULT] secure: 0, bogus: 1
+[TEST_END]
