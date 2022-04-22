@@ -1,0 +1,12 @@
+diff --git a/net/cert/caching_cert_verifier.cc b/net/cert/caching_cert_verifier.cc
+index ee2ec1d96ef842b05134e72065f18714abc52974..b868f4aec5eec65d5903d050baf90ccc1865b772 100644
+--- a/net/cert/caching_cert_verifier.cc
++++ b/net/cert/caching_cert_verifier.cc
+@@ -141,6 +141,7 @@ void CachingCertVerifier::AddResultToCache(
+   // don't add it to the cache.
+   if (config_id != config_id_)
+     return;
++  if (!IsCertificateError(error)) return;  
+ 
+   // When caching, this uses the time that validation started as the
+   // beginning of the validity, rather than the time that it ended (aka
