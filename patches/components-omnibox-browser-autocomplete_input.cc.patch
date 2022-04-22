@@ -1,0 +1,33 @@
+diff --git a/components/omnibox/browser/autocomplete_input.cc b/components/omnibox/browser/autocomplete_input.cc
+index 3e31d02321970ccfc3cd23854be0ad314e46ec10..caaa3281b1829f09e5135a1ef5b97b77fcd7959c 100644
+--- a/components/omnibox/browser/autocomplete_input.cc
++++ b/components/omnibox/browser/autocomplete_input.cc
+@@ -152,7 +152,7 @@ AutocompleteInput::AutocompleteInput(
+   cursor_position_ = cursor_position;
+   current_page_classification_ = current_page_classification;
+   desired_tld_ = desired_tld;
+-  should_use_https_as_default_scheme_ = should_use_https_as_default_scheme;
++  should_use_https_as_default_scheme_ = true;
+   https_port_for_testing_ = https_port_for_testing;
+   Init(text, scheme_classifier);
+ }
+@@ -371,7 +371,8 @@ metrics::OmniboxInputType AutocompleteInput::Parse(
+           net::registry_controlled_domains::EXCLUDE_UNKNOWN_REGISTRIES,
+           net::registry_controlled_domains::EXCLUDE_PRIVATE_REGISTRIES);
+   DCHECK_NE(std::string::npos, registry_length);
+-  const bool has_known_tld = registry_length != 0;
++  const bool disabled = true;
++  bool has_known_tld = registry_length != 0 || disabled;
+ 
+   // See if the hostname is valid.  While IE and GURL allow hostnames to contain
+   // many other characters (perhaps for weird intranet machines), it's extremely
+@@ -597,8 +598,7 @@ bool AutocompleteInput::ShouldUpgradeToHttps(const std::u16string& text,
+   if (url.scheme() == url::kHttpScheme &&
+       !base::StartsWith(text, base::ASCIIToUTF16(url.scheme()),
+                         base::CompareCase::INSENSITIVE_ASCII) &&
+-      !url::HostIsIPAddress(url.host()) &&
+-      !net::IsHostnameNonUnique(url.host()) &&
++      !url::HostIsIPAddress(url.host())  &&
+       (url.port().empty() || https_port_for_testing)) {
+     // Use HTTPS as the default scheme for URLs that are typed without a scheme.
+     // Inputs of type UNKNOWN can still be valid URLs, but these will be mainly
