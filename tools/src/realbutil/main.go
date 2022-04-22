@@ -96,8 +96,9 @@ func prepareBuild(c *cli.Context) (string, error) {
 	if err := applyResourceOverridesCmd(c); err != nil {
 		return "", err
 	}
+        appendToPolymerBundle(srcDir)
 
-	// Apply grd modding (this doesn't do the string replacements called at init)
+        // Apply grd modding (this doesn't do the string replacements called at init)
 	err := beaconModGRDAll(filepath.Join(srcDir, "beacon", "overrides"), srcDir, false)
 	return srcDir, err
 }
