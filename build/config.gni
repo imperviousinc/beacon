@@ -1,0 +1,103 @@
+import("//build/util/branding.gni")
+
+declare_args() {
+  # we don't support release channels 
+  # like brave yet.
+  beacon_channel = ""
+  is_release_channel = false
+  
+  beacon_product_name = ""
+  beacon_exe = ""
+  beacon_version_major = "1"
+  beacon_version_minor = "0"
+  beacon_version_build = "1"
+  beacon_version_patch = 0
+  chrome_version_string = ""
+  chrome_version_major = ""
+  tag_ap = ""
+  target_android_base = ""
+  target_android_output_format = ""
+  beacon_android_keystore_path = "."
+  beacon_android_keystore_name = ""
+  beacon_android_keystore_password = ""
+  beacon_android_key_password = ""
+
+  skip_signing = false
+}
+
+beacon_version = "$beacon_version_major.$beacon_version_minor.$beacon_version_build"
+
+if (beacon_exe == "") {
+  beacon_exe = beacon_product_name
+}
+
+beacon_dist_dir = "$root_out_dir/dist"
+if (is_win) {
+  beacon_exe = "$beacon_exe.exe"
+  beacon_underline_full_version =
+      "_$chrome_version_major" + "_$beacon_version_major" +
+      "_$beacon_version_minor" + "_$beacon_version_build"
+  _channel = ""
+  if (!is_official_build) {
+    _channel = "Development"
+  } 
+  _arch = ""
+  if (target_cpu == "x86") {
+    _arch = "32"
+  }
+  beacon_installer_exe = "beacon_installer$beacon_underline_full_version.exe"
+  beacon_stub_installer_exe =
+      "Beacon$_channel" + "Setup$_arch$beacon_underline_full_version.exe"
+  beacon_untagged_stub_installer_exe =
+      "BeaconUntagged$_channel" +
+      "Setup$_arch$beacon_underline_full_version.exe"
+  beacon_standalone_installer_exe =
+      "BeaconStandalone$_channel" +
+      "Setup$_arch$beacon_underline_full_version.exe"
+  beacon_silent_installer_exe = "BeaconStandaloneSilent$_channel" +
+                               "Setup$_arch$beacon_underline_full_version.exe"
+  beacon_untagged_installer_exe = "BeaconStandaloneUntagged$_channel" +
+                                 "Setup$_arch$beacon_underline_full_version.exe"
+} else if (is_mac) {
+  beacon_exe = "$chrome_product_full_name.app"
+  beacon_dmg = "$chrome_product_full_name.dmg"
+  beacon_pkg = "$chrome_product_full_name.pkg"
+  beacon_delta = "$chrome_product_full_name.delta"
+
+  beacon_product_dir_name_suffix = ""
+  if (!is_official_build) {
+    beacon_product_dir_name_suffix = "-Development"
+  }
+
+  beacon_product_dir_name =
+      "Impervious/Beacon$beacon_product_dir_name_suffix"
+}
+
+beacon_platform = "darwin"
+if (is_win) {
+  beacon_platform = "win32"
+} else if (is_linux) {
+  beacon_platform = "linux"
+} else if (is_android) {
+  beacon_platform = "android"
+}
+
+is_release_channel = beacon_channel == ""
+
+beacon_android_output = ""
+if (is_android) {
+  beacon_android_output += "$root_out_dir/apks/Beacon"
+  if (target_android_base == "modern") {
+    assert(target_cpu != "arm64" && target_cpu != "x64")
+    beacon_android_output += "Modern"
+  } else if (target_cpu == "arm64" || target_cpu == "x64" ||
+             target_android_base == "mono") {
+    beacon_android_output += "Mono"
+  }
+
+  if (target_android_output_format == "aab") {
+    beacon_android_output += "$target_cpu.aab"
+  } else {
+    beacon_android_output += "$target_cpu.apk"
+  }
+}

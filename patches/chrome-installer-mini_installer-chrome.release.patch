@@ -1,0 +1,14 @@
+diff --git a/chrome/installer/mini_installer/chrome.release b/chrome/installer/mini_installer/chrome.release
+index 9c6346bb8c88fdab90ea9f2c60bd2a5f54ad14a3..3f594b3aad0baef1dbdd231596661e2e2c786532 100644
+--- a/chrome/installer/mini_installer/chrome.release
++++ b/chrome/installer/mini_installer/chrome.release
+@@ -6,7 +6,8 @@
+ #
+ # Chrome Application dir entries, sorted alphabetically.
+ #
+-chrome.exe: %(ChromeDir)s\
++beacon.dll: %(VersionDir)s\ 
++beacon.exe: %(ChromeDir)s\
+ chrome_proxy.exe: %(ChromeDir)s\
+ #
+ # Chrome version dir assembly manifest.

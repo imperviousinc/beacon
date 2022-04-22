@@ -1,0 +1,12 @@
+diff --git a/chrome/tools/build/mac/infoplist_strings_util.cc b/chrome/tools/build/mac/infoplist_strings_util.cc
+index e9fa794b0acce1ed083d1c4321d0d34821232e70..c720b74e81f6aeae48015fba7832bb056da97e22 100644
+--- a/chrome/tools/build/mac/infoplist_strings_util.cc
++++ b/chrome/tools/build/mac/infoplist_strings_util.cc
+@@ -31,6 +31,7 @@ std::unique_ptr<ui::DataPack> LoadResourceDataPack(
+     const char* dir_path,
+     const char* branding_strings_name,
+     const std::string& locale_name) {
++  branding_strings_name = "chromium_strings";
+   auto path = base::FilePath(base::StringPrintf(
+       "%s/%s_%s.pak", dir_path, branding_strings_name, locale_name.c_str()));
+   path = base::MakeAbsoluteFilePath(path);

@@ -1,0 +1,22 @@
+group("beacon") {
+  public_deps = [
+    ":copy_exe",
+    ":copy_pdb",
+  ]
+}
+
+copy("copy_exe") {
+  sources = [ "$root_out_dir/chrome.exe" ]
+
+  outputs = [ "$root_out_dir/beacon.exe" ]
+
+  deps = [ "//chrome:reorder_imports" ]
+}
+
+copy("copy_pdb") {
+  sources = [ "$root_out_dir/chrome.exe.pdb" ]
+
+  outputs = [ "$root_out_dir/beacon.exe.pdb" ]
+
+  deps = [ "//chrome:reorder_imports" ]
+}
