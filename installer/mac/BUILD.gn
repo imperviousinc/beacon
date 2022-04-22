@@ -1,0 +1,29 @@
+import("//build/util/branding.gni")
+import("//build/util/version.gni")
+
+_packaging_dir = "$root_out_dir/$chrome_product_full_name Packaging"
+
+
+group("mac") {
+    public_deps = [ "//chrome/installer/mac", ":copies", ":internal_config" ]
+}
+
+copy("copies") {
+    sources = [
+        "internal/release.6ba3c10a73b04c54bb4465cdf077f6249903e968.provisionprofile",
+        "internal/beacon_dmg.py",
+        "internal/beacon_dmg_background.tiff",
+        "internal/chrome_dmg_icon.icns",
+        "internal/chrome_dmg_dsstore",
+    ]
+
+    outputs = [ "$_packaging_dir/{{source_file_part}}" ]
+}
+
+copy("internal_config") {
+    sources = [
+        "internal/internal_config.py",
+    ]
+
+    outputs = [ "$_packaging_dir/signing/{{source_file_part}}" ]
+}

@@ -1,0 +1,12 @@
+diff --git a/chrome/installer/mac/signing/parts.py b/chrome/installer/mac/signing/parts.py
+index cc8dd044dc5ea6a328b8d044be647acab830ca62..1cb92e35eac8533d45a6b6aff457d3c51e73ddfe 100644
+--- a/chrome/installer/mac/signing/parts.py
++++ b/chrome/installer/mac/signing/parts.py
+@@ -123,6 +123,7 @@ def get_parts(config):
+         'libswiftshader_libEGL.dylib',
+         'libswiftshader_libGLESv2.dylib',
+         'libvk_swiftshader.dylib',
++        'libbeacon.dylib',
+     ]
+     if config.is_chrome_branded():
+         dylibs.append('liboptimization_guide_internal.dylib')

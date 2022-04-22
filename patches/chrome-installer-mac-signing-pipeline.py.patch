@@ -1,0 +1,12 @@
+diff --git a/chrome/installer/mac/signing/pipeline.py b/chrome/installer/mac/signing/pipeline.py
+index e54b7f660a7615ab994365d78b82c8ad61f5f715..81fc931d7a2a6332564e5768d6fd88bb19138abb 100644
+--- a/chrome/installer/mac/signing/pipeline.py
++++ b/chrome/installer/mac/signing/pipeline.py
+@@ -478,6 +478,7 @@ def _package_dmg(paths, dist, config):
+             '--copy', '{}/{}:/.DS_Store'.format(packaging_dir, dsstore_file),
+         ]
+         # yapf: enable
++    import beacon_dmg ; beacon_dmg.extend(pkg_dmg, packaging_dir, icon_file, dsstore_file)   
+ 
+     commands.run_command(pkg_dmg)
+ 
