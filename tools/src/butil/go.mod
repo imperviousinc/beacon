@@ -1,4 +1,4 @@
-module butil
+module github.com/imperviousinc/beacon/tools/src/butil
 
 go 1.18
 

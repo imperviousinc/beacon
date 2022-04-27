@@ -45,7 +45,7 @@ This repository does not contain the actual Chromium code it will be fetched usi
 Install chromium build depedencies for the target platform and then install `butil`. 
 
 ```
-$ go install https://github.com/imperviousinc/beacon/tools/src/butil@latest
+$ go install github.com/imperviousinc/beacon/tools/src/butil@latest
 ```
 `butil` is beacon's development utility. It helps you apply patches and do various overrides to chromium. Make sure it's in your path.
 
