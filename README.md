@@ -13,8 +13,8 @@ A first-class browsing experience for a decentralized internet built with web te
 
 ## How it works
 
-- Beacon syncs block headers to retrive a verifiable merkle tree root.
-- Requests proofs from peers to retrive a DNSSEC signed zone.
+- Beacon syncs block headers to retrieve a verifiable merkle tree root.
+- Requests proofs from peers to retrieve a DNSSEC signed zone.
 - Performs in-browser DNSSEC validation.
 - Verifies certificates with [DANE](https://datatracker.ietf.org/doc/html/rfc6698).
 
