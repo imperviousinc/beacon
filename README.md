@@ -42,7 +42,7 @@ This repository does not contain the actual Chromium code it will be fetched usi
 
 ### Get started
 
-Install chromium build depedencies for the target platform and then install `butil`. 
+Install chromium build dependencies for the target platform and then install `butil`. 
 
 ```
 $ go install github.com/imperviousinc/beacon/tools/src/butil@latest
