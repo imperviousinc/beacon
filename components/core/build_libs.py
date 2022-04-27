@@ -143,6 +143,8 @@ def build_hsk(hsk_out_path, env):
 
   if sys.platform == 'darwin':
     call(['make', 'CFLAGS=-mmacosx-version-min=10.11.0', '-j'], env)
+  elif sys.platform == 'linux' or sys.platform == 'linux2':
+    call(['make', 'CFLAGS=-fPIC', '-j'], env)
   else:
     call(['make', '-j'], env)
   
