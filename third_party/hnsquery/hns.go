@@ -80,7 +80,7 @@ func NewClient(config *Config) (*Client, error) {
 		C.free(unsafe.Pointer(chdrFile))
 	}
 
-	C.hns_ctx_set_id(ctx, C.ulonglong(ctxId))
+	C.hns_ctx_set_id(ctx, C.uint64_t(ctxId))
 
 	c := &Client{
 		config:    config,
