@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/urfave/cli/v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"runtime"
-
-	"github.com/urfave/cli/v2"
 )
 
 const uninitializedRepo = ".beacon__repo"
@@ -50,10 +49,10 @@ func handleInitCmd(c *cli.Context) error {
 	workDir, err := os.Getwd()
 	must(err)
 
-	runActionWithDir("Applying patches", workDir, butilPath, "patches", "apply")
-	runActionWithDir("Updating strings", workDir, butilPath, "strings", "rebase")
-
-	return nil
+	if err := runActionWithDir("Applying patches", workDir, butilPath, "patches", "apply"); err != nil {
+		return fmt.Errorf("action failed: fix and call `butil init` again: %v", err)
+	}
+	return runActionWithDir("Updating strings", workDir, butilPath, "strings", "rebase")
 }
 
 // mustBeInRootAndInitialized verifies the butil is being called
@@ -96,9 +95,9 @@ func prepareBuild(c *cli.Context) (string, error) {
 	if err := applyResourceOverridesCmd(c); err != nil {
 		return "", err
 	}
-        appendToPolymerBundle(srcDir)
+	appendToPolymerBundle(srcDir)
 
-        // Apply grd modding (this doesn't do the string replacements called at init)
+	// Apply grd modding (this doesn't do the string replacements called at init)
 	err := beaconModGRDAll(filepath.Join(srcDir, "beacon", "overrides"), srcDir, false)
 	return srcDir, err
 }
@@ -120,10 +119,8 @@ func handleBuildDebugCmd(c *cli.Context) error {
 		return err
 	}
 
-	runActionWithDir("Building Beacon", srcDir,
+	return runActionWithDir("Building Beacon", srcDir,
 		"autoninja", "-C", buildDir, "beacon")
-
-	return nil
 }
 
 func handleBuildReleaseCmd(c *cli.Context) error {
@@ -179,6 +176,7 @@ func applyPatchedCmd(c *cli.Context) error {
 		log.Fatalf("failed reading patches dir: %v", err)
 	}
 
+	failed := 0
 	for _, patch := range patches {
 		if patch.IsDir() {
 			continue
@@ -188,8 +186,14 @@ func applyPatchedCmd(c *cli.Context) error {
 		err := runActionWithDir("Applying patch "+patch.Name(),
 			srcDir, "python", patchScript, "--directory", srcDir, patchPath)
 		if err != nil {
-			fmt.Println("[ERROR] Failed applying " + patch.Name())
+			fmt.Printf("[ERROR] Failed applying %s: %v\n", patch.Name(), err)
+			failed++
 		}
+	}
+
+	if failed > 0 {
+		return fmt.Errorf("failed applying patches ["+
+			"total: %d, failed: %d]", len(patches), failed)
 	}
 
 	return nil
