@@ -104,7 +104,10 @@ def build_core(out, env):
     goBin = '"/c/Program Files/Go/bin/go.exe"'
     out = to_msys_path(out)
 
-  call_args = [goBin,'build','-trimpath','-buildmode=c-shared', '-o', out]
+  call_args = [goBin,'build',
+               # https://github.com/golang/go/issues/6940#issuecomment-66089199
+               '-ldflags', '-extldflags=-fno-PIC',
+               '-trimpath','-buildmode=c-shared', '-o', out]
    
   if sys.platform == 'win32':
     call(call_args, env)
@@ -115,6 +118,8 @@ def build_core(out, env):
   if sys.platform == 'darwin':
     env['CGO_CFLAGS'] = '-mmacosx-version-min=10.11.0'
     env['CGO_LDFLAGS'] = '-mmacos-version-min=10.11.0' 
+  else:
+    env['CGO_LDFLAGS'] = '-fno-PIC'
   try:
     subprocess.check_call(call_args, env=env)
   except subprocess.CalledProcessError as e:
