@@ -3,104 +3,249 @@
 package main
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
-	"io/fs"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"time"
 )
 
-func touchOverriddenLogos(themeDir string) {
-	_ = filepath.Walk(themeDir, func(path string, overrideInfo fs.FileInfo, err error) error {
-		if err != nil || overrideInfo.IsDir() {
-			return nil
-		}
+// Patcher is used for storing some metadata
+// in .patcher file to maintain patches for Beacon
+type Patcher struct {
+	// Version is the version of this metadata file
+	Version int `json:"version"`
 
-		ext := filepath.Ext(path)
-		if ext != ".png" && ext != ".icon" {
-			return nil
-		}
+	// LastPatched the hash of the last git commit
+	// since patches were applied. This can be used
+	// to detect if patches need to be re-applied
+	// if patch files were modified upstream & git pulled
+	// using: git diff --name-status <last-patched-commit> HEAD -- *.patch
+	LastPatched string `json:"last_patched"`
 
-		if err := os.Chtimes(path, time.Now(), time.Now()); err != nil {
-			log.Printf("[WARNING] failed changing mod time for logo override `%s`:%v", path, err)
-			return nil
-		}
-
-		log.Printf("Touching original logo file `%s`", path)
-		return nil
-	})
+	// rootPath the root directory contains .patcher file
+	rootPath string
+	// chromePath Chrome browser repo
+	chromePath string
+	// beaconPath Beacon repo
+	beaconPath  string
+	patchesPath string
 }
 
-func fixOverrideTime(chromePath, beaconPath string) error {
-	chromeStat, err := os.Stat(chromePath)
-	if err != nil {
-		return err
+// LoadPatcher loads .patcher metadata file or creates
+// a default one.
+func LoadPatcher(rootDir string) (*Patcher, error) {
+	dotFile := filepath.Join(rootDir, ".patcher")
+
+	raw, err := os.ReadFile(dotFile)
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		return nil, fmt.Errorf("failed reading .butil file: %w", err)
 	}
-	beaconStat, err := os.Stat(beaconPath)
-	if err != nil {
-		return err
+
+	// empty or doesn't exist
+	if len(raw) == 0 {
+		return getDefaultPatcher(rootDir), nil
 	}
-	return compareFixOverrideTime(chromePath, beaconPath, chromeStat.ModTime(), beaconStat.ModTime())
+
+	p := getDefaultPatcher(rootDir)
+	if err := json.Unmarshal(raw, &p); err != nil {
+		return nil, fmt.Errorf("failed reading .butil file: %v", err)
+	}
+
+	return p, nil
 }
 
-func compareFixOverrideTime(chromePath, beaconPath string, chromeTime time.Time, beaconTime time.Time) error {
-	if chromeTime.Equal(beaconTime) {
-		return nil
-	}
-	// ensures both have the same time
-	fixTime := time.Now().Round(time.Second)
-	log.Printf("Touching override `%s`", chromePath)
-	if err := os.Chtimes(chromePath, fixTime, fixTime); err != nil {
-		return fmt.Errorf("failed changing mod time for chromium file `%s`:%v", chromePath, err)
+func (p *Patcher) applyPatch(name string) error {
+	patchPath := filepath.Join(p.patchesPath, name)
+	c := exec.Command("git", "apply", patchPath)
+	c.Dir = p.chromePath
 
-	}
-	if err := os.Chtimes(beaconPath, fixTime, fixTime); err != nil {
-		return fmt.Errorf("failed changing mod time for beacon file `%s`:%v", beaconPath, err)
-	}
+	out, err := c.CombinedOutput()
+	if err != nil {
+		if p.patchApplied(name) {
+			return nil
+		}
 
+		fmt.Println(string(out))
+		return err
+	}
 	return nil
 }
 
-func touchCCOverrides(chromiumSrcDir, beaconChromiumSrcDir string) {
-	_ = filepath.Walk(beaconChromiumSrcDir, func(path string, overrideInfo fs.FileInfo, err error) error {
-		if err != nil || overrideInfo.IsDir() {
-			return nil
-		}
+func (p *Patcher) patchApplied(name string) bool {
+	patchPath := filepath.Join(p.patchesPath, name)
+	c := exec.Command("git", "apply", "--reverse", "--check", patchPath)
+	c.Dir = p.chromePath
 
-		ext := filepath.Ext(path)
-		if ext != ".cc" && ext != ".h" && ext != ".mm" {
-			return nil
-		}
-
-		relPath, err := filepath.Rel(beaconChromiumSrcDir, path)
-		if err != nil {
-			log.Printf("[WARNING] failed getting relative path for chromium_src from: %v", err)
-			return nil
-		}
-
-		chromePath := filepath.Join(chromiumSrcDir, relPath)
-		originalInfo, err := os.Stat(chromePath)
-		if err != nil {
-			// if ext == ".h" {
-			// 	return nil
-			// }
-			log.Printf("[WARNING] no matching chromium override found for `%s` since `%s` isn't available: %v",
-				path, chromePath, err)
-			return nil
-		}
-		if err = compareFixOverrideTime(chromePath, path, originalInfo.ModTime(),
-			overrideInfo.ModTime()); err != nil {
-			log.Printf("[WARNING] %v", err)
-		}
-
-		return nil
-	})
+	return c.Run() == nil
 }
 
-func getModifiedPaths(gitRepoDir string) []string {
+// Apply applies patches
+func (p *Patcher) Apply() error {
+	patches, err := os.ReadDir(p.patchesPath)
+	if err != nil {
+		return fmt.Errorf("failed reading patches dir: %v", err)
+	}
+
+	failed := 0
+	for _, patch := range patches {
+		if patch.IsDir() {
+			continue
+		}
+
+		fmt.Println("Applying patch " + patch.Name())
+		if err = p.applyPatch(patch.Name()); err != nil {
+			fmt.Printf("[ERROR] Failed applying %s: %v\n", patch.Name(), err)
+			failed++
+		}
+	}
+
+	if failed > 0 {
+		return fmt.Errorf("failed applying patches ["+
+			"total: %d, failed: %d]", len(patches), failed)
+	}
+
+	if err := p.UpdateLastPatched(); err != nil {
+		return err
+	}
+	return p.PersistConfig()
+}
+
+func (p *Patcher) Update() error {
+	updatePatches(p.chromePath, filepath.Join(p.beaconPath, "patches"))
+	return nil
+}
+
+// Reverse clears patches
+func (p *Patcher) Reverse() error {
+	return nil
+}
+
+func (p *Patcher) UpdateLastPatched() error {
+	c := exec.Command("git", "rev-parse", "HEAD")
+	c.Dir = p.beaconPath
+
+	commitHash, err := c.Output()
+	if err != nil {
+		return fmt.Errorf("call failed: %s: %v", c.String(), err)
+	}
+
+	p.LastPatched = strings.TrimSpace(string(commitHash))
+	return nil
+}
+
+// PersistConfig stores the metadata .patcher file
+func (p *Patcher) PersistConfig() error {
+	raw, err := json.Marshal(p)
+	if err != nil {
+		return fmt.Errorf("persist failed: %v", err)
+	}
+
+	dotFile := filepath.Join(p.rootPath, ".patcher")
+	if err = writeFile(dotFile, raw); err != nil {
+		return fmt.Errorf("persist failed: %v", err)
+	}
+	return nil
+}
+
+func (p *Patcher) readAllPatches() ([]string, error) {
+	entires, err := os.ReadDir(p.patchesPath)
+	if err != nil {
+		return nil, err
+	}
+
+	var patchFiles []string
+	for _, entry := range entires {
+		if filepath.Ext(entry.Name()) == ".patch" {
+			patchName := filepath.Join(p.patchesPath, entry.Name())
+			patchFiles = append(patchFiles, patchName)
+		}
+	}
+	return patchFiles, nil
+}
+
+func (p *Patcher) ShouldReapply() (bool, error) {
+	added, modified, err := p.DiffSinceLastPatched()
+	return len(added) > 0 || len(modified) > 0, err
+}
+
+// DiffSinceLastPatched returns a list of modified patch files and a list
+// of newly added patches since the last time Apply or Update were called.
+// This may happen when the repo containing the patch files was updated
+// upstream and git pulled.
+func (p *Patcher) DiffSinceLastPatched() ([]string, []string, error) {
+	if p.LastPatched == "" {
+		added, err := p.readAllPatches()
+		return added, nil, err
+	}
+	c := exec.Command("git", "diff", "--name-status", p.LastPatched, "HEAD", "--", "*.patch")
+	c.Dir = p.beaconPath
+	fmt.Println(p.beaconPath)
+	if p.beaconPath == "" {
+		panic("wat")
+	}
+	out, err := c.CombinedOutput()
+	if err != nil {
+		return nil, nil, fmt.Errorf("call failed: %s: %v:%s", c.String(), err, string(out))
+	}
+
+	output := strings.Split(strings.TrimSpace(string(out)), "\n")
+	var added, modified []string
+	for _, diff := range output {
+		parts := strings.Fields(diff)
+		if len(parts) != 2 {
+			continue
+		}
+
+		if parts[0] == "A" {
+			added = append(added, parts[1])
+		}
+		if parts[0] == "M" {
+			modified = append(modified, parts[1])
+		}
+	}
+
+	added = p.removeApplied(added)
+	modified = p.removeApplied(modified)
+
+	return added, modified, nil
+}
+
+func (p *Patcher) removeApplied(patches []string) []string {
+	var notApplied []string
+	for _, patch := range patches {
+		_, file := filepath.Split(patch)
+		if !p.patchApplied(file) {
+			notApplied = append(notApplied, patch)
+		}
+	}
+
+	return notApplied
+}
+
+func getDefaultPatcher(rootDir string) *Patcher {
+	chromeDir := filepath.Join(rootDir, "src")
+	mustExist(chromeDir)
+	beaconDir := filepath.Join(chromeDir, "beacon")
+	mustExist(beaconDir)
+	patchesDir := filepath.Join(beaconDir, "patches")
+	mustExist(patchesDir)
+	return &Patcher{
+		Version:     0,
+		LastPatched: "",
+		rootPath:    rootDir,
+		chromePath:  chromeDir,
+		beaconPath:  beaconDir,
+		patchesPath: patchesDir,
+	}
+}
+
+// getChromeDiffNamesOnly gets all files modified in chrome
+// excluding with shouldSaveAsPatch
+func getChromeDiffNamesOnly(gitRepoDir string) []string {
 	cmd := exec.Command("git", "diff",
 		"--diff-filter", "M", "--name-only", "--ignore-space-at-eol")
 	cmd.Dir = gitRepoDir
@@ -110,14 +255,28 @@ func getModifiedPaths(gitRepoDir string) []string {
 		log.Fatalf("failed reading diff for repo: %v", gitRepoDir)
 	}
 
-	return strings.Split(string(out), "\n")
+	paths := strings.Split(string(out), "\n")
+	var filtered []string
+	for _, m := range paths {
+		m := strings.TrimSpace(m)
+		if shouldSaveAsPatch(m) {
+			filtered = append(filtered, m)
+		}
+	}
+	return filtered
+}
+
+// getPatchNameFromPath flattens a path into a file
+// name ending with a .patch extension
+func getPatchNameFromPath(path string) string {
+	patch := filepath.ToSlash(filepath.Clean(path))
+	return strings.ReplaceAll(patch, "/", "-") + ".patch"
 }
 
 func writePatchFiles(modifiedPaths []string, gitRepoPath, patchDirPath string) []string {
 	var patchFiles []string
 	for _, m := range modifiedPaths {
-		patch := filepath.ToSlash(filepath.Clean(m))
-		patch = strings.ReplaceAll(patch, "/", "-") + ".patch"
+		patch := getPatchNameFromPath(m)
 
 		cmd := exec.Command("git", "diff",
 			"--src-prefix=a/", "--dst-prefix=b/", "--full-index", m)
@@ -140,15 +299,6 @@ func writePatchFiles(modifiedPaths []string, gitRepoPath, patchDirPath string) [
 	return patchFiles
 }
 
-func hasString(arr []string, s string) bool {
-	for _, c := range arr {
-		if c == s {
-			return true
-		}
-	}
-	return false
-}
-
 func removeStalePatchFiles(patchFileNames []string, patchDirPath string, keepPatchFilenames []string) {
 	allPatches, err := os.ReadDir(patchDirPath)
 	if err != nil {
@@ -164,28 +314,20 @@ func removeStalePatchFiles(patchFileNames []string, patchDirPath string, keepPat
 		}
 
 		// remove stale patch
-		log.Printf("[WARNING] removing stale patch `%s`", oldPatch.Name())
+		log.Printf("removing stale patch `%s`", oldPatch.Name())
 		if err := os.Remove(oldPatchPath); err != nil {
 			log.Fatalf("failed removing stale patch `%s`: %v", oldPatch.Name(), err)
 		}
 	}
 }
 
-func updatePatches(gitRepoPath, patchDirPath string, repoPathFilter func(path string) bool, keepPatchFilenames []string) {
-	modified := getModifiedPaths(gitRepoPath)
-	var filtered []string
-	for _, m := range modified {
-		m := strings.TrimSpace(m)
-		if repoPathFilter(m) {
-			filtered = append(filtered, m)
-		}
-	}
-
-	patchFileNames := writePatchFiles(filtered, gitRepoPath, patchDirPath)
-	removeStalePatchFiles(patchFileNames, patchDirPath, keepPatchFilenames)
+func updatePatches(gitRepoPath, patchDirPath string) {
+	diff := getChromeDiffNamesOnly(gitRepoPath)
+	patchFileNames := writePatchFiles(diff, gitRepoPath, patchDirPath)
+	removeStalePatchFiles(patchFileNames, patchDirPath, []string{} /*no exclusions*/)
 }
 
-var chromiumPathFilter = func(s string) bool {
+var shouldSaveAsPatch = func(s string) bool {
 	return len(s) > 0 &&
 		!strings.HasPrefix(s, "chrome/app/theme/default") &&
 		!strings.HasPrefix(s, "chrome/app/theme/beacon") &&
