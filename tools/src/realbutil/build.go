@@ -25,11 +25,11 @@ type BuildArgs struct {
 
 func initBuildDir(workingDir string) {
 	if err := generateGClientFile(workingDir); err != nil {
-		must(fmt.Errorf("failed creating .glicent file: %v", err))
+		check(fmt.Errorf("failed creating .glicent file: %v", err))
 	}
 
 	// pull chromium's code
-	must(runActionWithDir("Running gclient sync", workingDir,
+	check(run("Running gclient sync", workingDir,
 		"gclient", "sync", "--revision", "src@refs/tags/"+ChromiumTag))
 
 	// ensure correct tag
@@ -37,12 +37,12 @@ func initBuildDir(workingDir string) {
 	c.Dir = filepath.Join(workingDir, "src")
 	out, err := c.Output()
 	if err != nil {
-		must(fmt.Errorf("failed checking tag: %v", err))
+		check(fmt.Errorf("failed checking tag: %v", err))
 	}
 
 	actualTag := strings.TrimSpace(string(out))
 	if actualTag != ChromiumTag {
-		must(fmt.Errorf("got chromium tag = %s, want tag = %s", actualTag, ChromiumTag))
+		check(fmt.Errorf("got chromium tag = %s, want tag = %s", actualTag, ChromiumTag))
 	}
 }
 
@@ -151,6 +151,6 @@ func genBuild(srcDir string, ch Channel, buildDir, target string) error {
 		return err
 	}
 
-	return runActionWithDir("Setting up the build", srcDir,
+	return run("Setting up the build", srcDir,
 		"gn", "gen", buildDir)
 }

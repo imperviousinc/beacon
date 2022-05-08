@@ -33,26 +33,26 @@ func fetchChromium() {
 		// dummy butil should've cloned the repo here
 		repoPath := filepath.Join(workDir, uninitializedRepo)
 		mustExist(repoPath)
-		must(os.Rename(repoPath, beaconDir))
+		check(os.Rename(repoPath, beaconDir))
 		mustExist(beaconDir)
 	}
 
 	// used to mark this path as the root project dir
-	must(ioutil.WriteFile(filepath.Join(workDir, ".butil"), []byte{}, 0644))
+	check(ioutil.WriteFile(filepath.Join(workDir, ".butil"), []byte{}, 0644))
 }
 
 func handleInitCmd(c *cli.Context) error {
 	fetchChromium()
 
 	butilPath, err := os.Executable()
-	must(err)
+	check(err)
 	workDir, err := os.Getwd()
-	must(err)
+	check(err)
 
-	if err := runActionWithDir("Applying patches", workDir, butilPath, "patches", "apply"); err != nil {
-		return fmt.Errorf("action failed: fix and call `butil init` again: %v", err)
+	if err := run("Applying patches", workDir, butilPath, "patches", "apply"); err != nil {
+		return fmt.Errorf("run failed: fix and call `butil init` again: %v", err)
 	}
-	return runActionWithDir("Updating strings", workDir, butilPath, "strings", "rebase")
+	return run("Updating strings", workDir, butilPath, "strings", "rebase")
 }
 
 // mustBeInRootAndInitialized verifies the butil is being called
@@ -69,7 +69,7 @@ func mustBeInRootAndInitialized() string {
 		// try alternate path maybe its called from src/
 		butilPath = filepath.Join(workDir, "..", ".butil")
 		if !fileExists(butilPath) {
-			log.Fatalf("This command must be called from the root project directory (parent of src/).")
+			log.Fatalf("This command check be called from the root project directory (parent of src/).")
 		}
 
 		workDir = filepath.Dir(butilPath)
@@ -97,8 +97,24 @@ func prepareBuild(c *cli.Context) (string, error) {
 	}
 	appendToPolymerBundle(srcDir)
 
+	// Warn if patches were modified
+	p, err := LoadPatcher(workDir)
+	if err != nil {
+		return "", err
+	}
+
+	reapply, err := p.ShouldReapply()
+	if err != nil {
+		return "", err
+	}
+	if reapply && !c.Bool("force") {
+		fmt.Println("[ERROR] some patches were modified since they were last applied")
+		fmt.Println("[ERROR] consider re-applying patches or force build with -f option")
+		return "", fmt.Errorf("patches check failed")
+	}
+
 	// Apply grd modding (this doesn't do the string replacements called at init)
-	err := beaconModGRDAll(filepath.Join(srcDir, "beacon", "overrides"), srcDir, false)
+	err = beaconModGRDAll(filepath.Join(srcDir, "beacon", "overrides"), srcDir, false)
 	return srcDir, err
 }
 
@@ -119,7 +135,7 @@ func handleBuildDebugCmd(c *cli.Context) error {
 		return err
 	}
 
-	return runActionWithDir("Building Beacon", srcDir,
+	return run("Building Beacon", srcDir,
 		"autoninja", "-C", buildDir, "beacon")
 }
 
@@ -140,63 +156,27 @@ func handleBuildReleaseCmd(c *cli.Context) error {
 		return err
 	}
 
-	return runActionWithDir("Building Beacon", srcDir,
+	return run("Building Beacon", srcDir,
 		"autoninja", "-C", buildDir, "beacon")
 }
 
 func updatePatchesCmd(c *cli.Context) error {
 	workDir := mustBeInRootAndInitialized()
+	p, err := LoadPatcher(workDir)
+	if err != nil {
+		return err
+	}
 
-	srcDir := filepath.Join(workDir, "src")
-	mustExist(srcDir)
-
-	beaconDir := filepath.Join(srcDir, "beacon")
-	mustExist(beaconDir)
-
-	patchesDir := filepath.Join(beaconDir, "patches")
-	updatePatches(srcDir, patchesDir, chromiumPathFilter, []string{})
-	return nil
+	return p.Update()
 }
 
 func applyPatchedCmd(c *cli.Context) error {
 	workDir := mustBeInRootAndInitialized()
-
-	srcDir := filepath.Join(workDir, "src")
-	mustExist(srcDir)
-
-	beaconDir := filepath.Join(srcDir, "beacon")
-	mustExist(beaconDir)
-
-	patchScript := filepath.Join(beaconDir, "tools", "scripts", "patch.py")
-	mustExist(patchScript)
-
-	patchesDir := filepath.Join(beaconDir, "patches")
-	patches, err := os.ReadDir(patchesDir)
+	p, err := LoadPatcher(workDir)
 	if err != nil {
-		log.Fatalf("failed reading patches dir: %v", err)
+		return err
 	}
-
-	failed := 0
-	for _, patch := range patches {
-		if patch.IsDir() {
-			continue
-		}
-
-		patchPath := filepath.Join(patchesDir, patch.Name())
-		err := runActionWithDir("Applying patch "+patch.Name(),
-			srcDir, "python", patchScript, "--directory", srcDir, patchPath)
-		if err != nil {
-			fmt.Printf("[ERROR] Failed applying %s: %v\n", patch.Name(), err)
-			failed++
-		}
-	}
-
-	if failed > 0 {
-		return fmt.Errorf("failed applying patches ["+
-			"total: %d, failed: %d]", len(patches), failed)
-	}
-
-	return nil
+	return p.Apply()
 }
 
 func resetStringsCmd(c *cli.Context) error {
@@ -205,10 +185,10 @@ func resetStringsCmd(c *cli.Context) error {
 	srcDir := filepath.Join(workDir, "src")
 	mustExist(srcDir)
 
-	must(runActionWithDir("Resetting GRD Files", srcDir,
+	check(run("Resetting GRD Files", srcDir,
 		"git", "checkout", "--", "*.grd"))
 
-	must(runActionWithDir("Resetting GRDP Files", srcDir,
+	check(run("Resetting GRDP Files", srcDir,
 		"git", "checkout", "--", "*.grdp"))
 
 	return nil
@@ -278,7 +258,7 @@ func buildToolsCmd(c *cli.Context) error {
 			continue
 		}
 
-		must(runActionWithDir("Building tools/"+proj.Name(), toolSrc,
+		check(run("Building tools/"+proj.Name(), toolSrc,
 			"go", "build", "-o", toolBin, toolSrc))
 
 	}
@@ -312,6 +292,12 @@ func main() {
 					Name:  "target",
 					Usage: "Specify build target",
 					Value: "",
+				},
+				&cli.BoolFlag{
+					Name:    "force",
+					Aliases: []string{"f"},
+					Usage:   "Force build ignoring errors",
+					Value:   false,
 				},
 			},
 			Subcommands: []*cli.Command{
