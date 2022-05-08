@@ -11,7 +11,7 @@ import (
 	"github.com/beevik/etree"
 )
 
-// Utilites for applying string replacements similar to
+// Utilities for applying string replacements similar to
 // Brave replacement scripts. This also supports some more advanced
 // GRD replacements using beacon-add/beacon-override tags.
 var (
@@ -25,33 +25,9 @@ var (
 	}
 )
 
-var (
-	// Chromium strings
-	chromiumStringsPath      = []string{"chrome", "app", "chromium_strings.grd"}
-	beaconStringsPath        = []string{"beacon", "app", "beacon_strings.grd"}
-	chromiumSettingsPartPath = []string{"chrome", "app", "settings_chromium_strings.grdp"}
-	beaconSettingsPartPath   = []string{"chrome", "app", "settings_beacon_strings.grdp"}
-
-	// Android strings.
-	androidChromeStringsPath       = []string{"chrome", "browser", "ui", "android", "strings", "android_chrome_strings.grd"}
-	beaconAndroidChromeStringsPath = []string{"beacon", "browser", "ui", "android", "strings", "android_chrome_strings.grd"}
-
-	// Component strings
-	chromiumComponentsChromiumStringsPath = []string{"components", "components_chromium_strings.grd"}
-	beaconComponentsBeaconStringsPath     = []string{"beacon", "components", "components_beacon_strings.grd"}
-
-	chromiumComponentsStringsPath = []string{"components", "components_strings.grd"}
-	beaconComponentsStringsPath   = []string{"beacon", "components", "components_strings.grd"}
-
-	// Generated resources
-	chromiumGeneratedResourcesPath     = []string{"chrome", "app", "generated_resources.grd"}
-	beaconGeneratedResourcesPath       = []string{"beacon", "app", "generated_resources.grd"}
-	chromiumGeneratedResourcesExcludes = []string{"chromeos_strings.grdp"}
-)
-
-// Some of those strings technically need new translation
-// but we don't properly support localization yet
-// they'll fallback to English.
+// Some of those strings technically need new translation,
+// but we don't properly support localization, yet
+// they'll fall back to English.
 var (
 	beaconReplacers = []*strings.Replacer{
 		strings.NewReplacer(
@@ -80,8 +56,6 @@ var (
 	}
 
 	beaconRegexReplacements = map[*regexp.Regexp]string{}
-
-	beaconStringOverrides = []string{}
 )
 
 func beaconifyText(text string) string {
@@ -209,7 +183,7 @@ func verifyTreePaths(og *etree.Element, ov *etree.Element) bool {
 
 func beaconModGRD(originalGRDFile, overrideGRDFile, srcDir string) (string, error) {
 	// reset first
-	must(runActionWithDir("Reset grd file "+originalGRDFile, srcDir,
+	check(run("Reset grd file "+originalGRDFile, srcDir,
 		"git", "checkout", "--", originalGRDFile))
 
 	// apply string replacements
@@ -354,57 +328,4 @@ func recurseGrdNoMapping(chromiumPath string, exclude []string) []string {
 	}
 
 	return files
-}
-
-func recurseGrd(chromiumPath, beaconPath string, exclude []string) map[string]string {
-	mustExist(chromiumPath)
-	mapping := make(map[string]string)
-
-	grdps, err := getGRDPartsFromGRDP(chromiumPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	chromiumDir := filepath.Dir(chromiumPath)
-	beaconDir := filepath.Dir(beaconPath)
-
-	mapping[chromiumPath] = beaconPath
-	if len(grdps) == 0 {
-		return mapping
-	}
-
-	for _, grdp := range grdps {
-		if hasString(exclude, grdp) {
-			continue
-		}
-
-		chromiumGRDPPath := filepath.Join(chromiumDir, grdp)
-		beaconGRDPPath := filepath.Join(beaconDir, grdp)
-
-		mapping2 := recurseGrd(chromiumGRDPPath, beaconGRDPPath, exclude)
-		for k, v := range mapping2 {
-			mapping[k] = v
-		}
-	}
-
-	return mapping
-}
-
-func getXTBFiles(path string) ([]string, error) {
-	doc := etree.NewDocument()
-	if err := doc.ReadFromFile(path); err != nil {
-		return nil, fmt.Errorf("failed reading grd file `%s`:%v", path, err)
-	}
-
-	var parts []string
-	files := doc.FindElements(".//translations/file")
-	for _, p := range files {
-		path := p.SelectAttrValue("path", "")
-		lang := p.SelectAttrValue("lang", "")
-		if path != "" && lang != "" {
-			parts = append(parts, path)
-		}
-	}
-
-	return parts, nil
 }
