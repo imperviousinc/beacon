@@ -290,6 +290,11 @@ func syncCmd(c *cli.Context) error {
 		fmt.Println("butil sync (to try syncing again)")
 	}
 
+	if err == nil {
+		fmt.Println("sync is done!")
+		fmt.Println("call butil init to re-apply patches and string replacements")
+	}
+
 	return err
 }
 
@@ -356,7 +361,7 @@ func main() {
 		},
 		{
 			Name:   "sync",
-			Usage:  "Updates Chromium and re-applies patches",
+			Usage:  "Updates Chromium to the latest supported tag",
 			Action: syncCmd,
 		},
 		{

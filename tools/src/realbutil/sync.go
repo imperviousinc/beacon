@@ -26,14 +26,13 @@ func verifySynced(chromePath string) error {
 	return nil
 }
 
-// sync syncs chromium to the latest supported tag
-// It will return an error if the chrome repo working tree isn't clean
-//	or when some action fails.
-// Otherwise, it will perform the following actions:
-//  1. Switch to the newly supported tag in build.go
-//     If the tag doesn't exist, it should try git pull
-//  2. call `gclient sync` to update dependencies.
-//  3. Re-apply all patches and overrides
+// sync chromium to the latest supported tag it will return
+// an error if the chrome repo working tree isn't clean
+// or when some action fails. Otherwise, it will perform
+// the following actions:
+// 1. Switch to the newly supported tag in build.go If the
+// tag doesn't exist, it should try git pull
+// 2. call `gclient sync` to update dependencies.
 func sync(chromePath string) error {
 	if err := verifyWorkingTreeClean(chromePath); err != nil {
 		return err
@@ -53,7 +52,7 @@ func sync(chromePath string) error {
 }
 
 // verifyWorkingTreeClean verifies that the git working tree
-// is clean based on https://github.com/git/git/blob/master/git-sh-setup.sh#L202
+// is clean.
 func verifyWorkingTreeClean(repo string) error {
 	c := exec.Command("git", "status", "--short")
 	c.Dir = repo
