@@ -52,14 +52,14 @@ export class HNSInternalsAppElement extends PolymerElement {
 
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
 
     HNSInternalsProxyImpl.getInstance().initialize().then(
         url => this.handleUrlResult_(url));
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     this.eventTracker_.removeAll();
   }

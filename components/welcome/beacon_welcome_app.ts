@@ -57,7 +57,7 @@ export class WelcomeAppElement extends PolymerElement {
 
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
 
     WelcomeProxyImpl.getInstance().initialize().then(
@@ -73,7 +73,7 @@ export class WelcomeAppElement extends PolymerElement {
     });    
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     this.eventTracker_.removeAll();
   }

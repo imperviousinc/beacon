@@ -1,8 +1,8 @@
 diff --git a/net/dns/dns_transaction.cc b/net/dns/dns_transaction.cc
-index 535a207ee6317422139b671ea7115218e299a76d..2589e7150c57e7e3b61530a6775674a06d873141 100644
+index edccf23b09ad7d9f49ea18f2f832b08b60cb57e8..52b4c776c37807d558f9cb2a05df38fb6951d3e1 100644
 --- a/net/dns/dns_transaction.cc
 +++ b/net/dns/dns_transaction.cc
-@@ -1200,6 +1200,7 @@ class DnsTransactionImpl : public DnsTransaction,
+@@ -1202,6 +1202,7 @@ class DnsTransactionImpl : public DnsTransaction,
      if (!DNSDomainFromDot(hostname_, &labeled_hostname))
        return ERR_INVALID_ARGUMENT;
  
@@ -10,7 +10,7 @@ index 535a207ee6317422139b671ea7115218e299a76d..2589e7150c57e7e3b61530a6775674a0
      if (hostname_.back() == '.') {
        // It's a fully-qualified name, no suffix search.
        qnames_.push_back(labeled_hostname);
-@@ -1360,6 +1361,7 @@ class DnsTransactionImpl : public DnsTransaction,
+@@ -1362,6 +1363,7 @@ class DnsTransactionImpl : public DnsTransaction,
      DCHECK(secure_);
  
      size_t doh_server_index = dns_server_iterator_->GetNextAttemptIndex();

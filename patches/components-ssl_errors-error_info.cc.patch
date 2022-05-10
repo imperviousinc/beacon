@@ -1,8 +1,8 @@
 diff --git a/components/ssl_errors/error_info.cc b/components/ssl_errors/error_info.cc
-index 79dda76617ae18f48bf5f28ee42f7569a2bd22c2..d474ccbfba6bdb01990308a75ef5bacdc475fa4a 100644
+index a1c66510c296be336091f6ed1ac2d5d3f8ce2d7a..24f35a0b1c48059fda0224f71c350ac65c49a9bc 100644
 --- a/components/ssl_errors/error_info.cc
 +++ b/components/ssl_errors/error_info.cc
-@@ -192,6 +192,7 @@ ErrorInfo::~ErrorInfo() {}
+@@ -191,6 +191,7 @@ ErrorInfo::~ErrorInfo() {}
  
  // static
  ErrorInfo::ErrorType ErrorInfo::NetErrorToErrorType(int net_error) {

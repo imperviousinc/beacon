@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-const ChromiumTag = "100.0.4896.75"
+const ChromiumTag = "101.0.4951.54"
 
 type Channel int
 

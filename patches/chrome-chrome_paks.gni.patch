@@ -1,5 +1,5 @@
 diff --git a/chrome/chrome_paks.gni b/chrome/chrome_paks.gni
-index cd468f580cb63724a4a7344a21189e4a54dd5cd0..6106e73dfbba8655596d417beb4bf5f5bbb93fdf 100644
+index 10acea1dbb8db91ba73f892e4e1ca5aace579d00..809f23d5b04b4109631acbb368f393f2a2f619b1 100644
 --- a/chrome/chrome_paks.gni
 +++ b/chrome/chrome_paks.gni
 @@ -56,6 +56,7 @@ template("chrome_repack_percent") {
@@ -10,7 +10,7 @@ index cd468f580cb63724a4a7344a21189e4a54dd5cd0..6106e73dfbba8655596d417beb4bf5f5
  
      if (toolkit_views) {
        sources += [ "$root_gen_dir/ui/views/resources/views_resources_${percent}_percent.pak" ]
-@@ -392,6 +393,7 @@ template("chrome_extra_paks") {
+@@ -400,6 +401,7 @@ template("chrome_extra_paks") {
          "//chrome/browser/resources/chromeos/chromebox_for_meetings:resources",
        ]
      }

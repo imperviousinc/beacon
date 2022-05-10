@@ -1,8 +1,8 @@
 diff --git a/content/browser/BUILD.gn b/content/browser/BUILD.gn
-index b533c5eff48c134ea364521a1b9d60624d2ffce4..2d57ee28f8c714b0c4f8b9cb47fd6e9b7ac04eb5 100644
+index 88890346ff12752883a0cc51adbbb8ecbb9f4f54..95b69f015dac4875f9b06dfb53c44658ca1aeac9 100644
 --- a/content/browser/BUILD.gn
 +++ b/content/browser/BUILD.gn
-@@ -276,6 +276,8 @@ source_set("browser") {
+@@ -278,6 +278,8 @@ source_set("browser") {
        "//chromeos/services/machine_learning/public/mojom",
      ]
    }
@@ -11,7 +11,7 @@ index b533c5eff48c134ea364521a1b9d60624d2ffce4..2d57ee28f8c714b0c4f8b9cb47fd6e9b
  
    public_deps = [
      "//base",
-@@ -1252,6 +1254,8 @@ source_set("browser") {
+@@ -1289,6 +1291,8 @@ source_set("browser") {
      "network_service_client.h",
      "network_service_instance_impl.cc",
      "network_service_instance_impl.h",

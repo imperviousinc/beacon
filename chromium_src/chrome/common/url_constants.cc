@@ -11,6 +11,9 @@
 
 namespace chrome {
 
+const char kAccessCodeCastLearnMoreURL[] =
+            "https://support.impervious.com/beacon/a/?p=cast_to_class_teacher";
+
 const char kAccessibilityLabelsLearnMoreURL[] =
     "https://support.impervious.com/beacon/?p=image_descriptions";
 
@@ -479,5 +482,11 @@ const char kOutdatedPluginLearnMoreURL[] =
 // TODO (b/184137843): Use real link to phone hub notifications and apps access.
 const char kPhoneHubPermissionLearnMoreURL[] =
     "https://support.impervious.com/beacon/chromebook/?p=multidevice";
+
+#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
+    BUILDFLAG(IS_FUCHSIA)
+    const char kChromeAppsDeprecationLearnMoreURL[] =
+            "https://support.impervious.com/beacon/?p=chrome_app_deprecation";
+#endif
 
 }  // namespace chrome
