@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/urfave/cli/v2"
 	"io/ioutil"
@@ -101,6 +102,12 @@ func prepareBuild(c *cli.Context) (string, error) {
 	p, err := LoadPatcher(workDir)
 	if err != nil {
 		return "", err
+	}
+
+	if err := verifySynced(p.chromePath); err != nil && !c.Bool("force") {
+		fmt.Printf("[ERROR] %v\n", err)
+		fmt.Println("[ERROR] consider calling `butil sync` or force build with -f option")
+		return "", fmt.Errorf("sync check failed")
 	}
 
 	reapply, err := p.ShouldReapply()
@@ -265,6 +272,27 @@ func buildToolsCmd(c *cli.Context) error {
 	return nil
 }
 
+func syncCmd(c *cli.Context) error {
+	mustBeInRootAndInitialized()
+	rootDir := mustBeInRootAndInitialized()
+
+	srcDir := filepath.Join(rootDir, "src")
+	mustExist(srcDir)
+	err := sync(srcDir)
+	if err == nil {
+		return nil
+	}
+	if errors.Is(err, errSyncRequiresCleanWorkingTree) {
+		fmt.Println("Chrome repo at src/ must be clean for sync to work")
+		fmt.Println("save your work and consider running the following (be careful!):")
+		fmt.Println("git clean -df (To remove all untracked files/dirs. It will keep beacon/ since it's a git repo)")
+		fmt.Println("git reset --hard (To undo all modifications to chrome)")
+		fmt.Println("butil sync (to try syncing again)")
+	}
+
+	return err
+}
+
 func main() {
 	app := &cli.App{
 		Name:  "butil",
@@ -327,8 +355,9 @@ func main() {
 			},
 		},
 		{
-			Name:  "sync",
-			Usage: "Updates Chromium and re-applies patches",
+			Name:   "sync",
+			Usage:  "Updates Chromium and re-applies patches",
+			Action: syncCmd,
 		},
 		{
 			Name:  "patches",
